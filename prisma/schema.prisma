@@ -28,6 +28,7 @@ model User {
   sessions Session[]
   comments Comment[]
   participations Participation[]
+  notifications Notification[]
 }
 
 model Account {
@@ -104,4 +105,13 @@ model Participation {
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId])
+}
+
+model Notification {
+  id String @id @default(cuid())
+  userId String
+  message String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

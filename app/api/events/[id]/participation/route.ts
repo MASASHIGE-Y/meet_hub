@@ -9,6 +9,7 @@ type Props = {
   }>;
 };
 
+// POST
 export async function POST(req: Request, { params }: Props) {
   const { id } = await params;
 
@@ -40,6 +41,15 @@ export async function POST(req: Request, { params }: Props) {
       eventId: id,
     },
   });
+
+  if (event.creatorId !== user.id) {
+    await prisma.notification.create({
+      data: {
+        userId: event.creatorId,
+        message: `${user.name}さんがあなたのイベントに参加しました`,
+      },
+    });
+  }
 
   return NextResponse.json(participation);
 }
