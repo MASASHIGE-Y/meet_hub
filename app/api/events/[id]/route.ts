@@ -55,11 +55,20 @@ export async function PATCH(
 
   const body = await req.json();
 
-  const updatedEvent = await prisma.event.updateMany({
-    where: {
-      id,
-      creatorId: user.id,
-    },
+  const event = await prisma.event.findUnique({
+    where: { id },
+  });
+
+  if (!event) {
+    return NextResponse.json({ error: "Event not found" }, { status: 404 });
+  }
+
+  if (event.creatorId !== user.id) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
+  const updatedEvent = await prisma.event.update({
+    where: { id },
     data: {
       title: body.title,
       description: body.description,
