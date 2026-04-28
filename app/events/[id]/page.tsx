@@ -1,5 +1,6 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
+import CommentForm from "./CommentForm";
 
 type Props = {
   params: Promise<{
@@ -16,6 +17,14 @@ export default async function EventDetailPage({ params }: Props) {
     },
     include: {
       creator: true,
+      comments: {
+        include: {
+          user: true,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+      },
     },
   });
 
@@ -53,6 +62,19 @@ export default async function EventDetailPage({ params }: Props) {
       <p className="mt-2">
         終了: {event.endAt ? new Date(event.endAt).toLocaleString() : "未設定"}
       </p>
+
+      <h2 className="mt-8 text-xl font-bold">コメント</h2>
+
+      <CommentForm eventId={event.id} />
+
+      <ul className="mt-4 space-y-2">
+        {event.comments.map((comment) => (
+          <li key={comment.id} className="border p-2 rounded">
+            <p className="text-sm text-gray-500">{comment.user.name}</p>
+            <p>{comment.content}</p>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }

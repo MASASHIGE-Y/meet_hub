@@ -26,6 +26,7 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  comments Comment[]
 }
 
 model Account {
@@ -76,4 +77,17 @@ model Event {
   creatorId String
   creator   User     @relation(fields: [creatorId], references: [id])
   createdAt DateTime @default(now())
+
+  comments Comment[]
+}
+
+model Comment {
+  id String @id @default(cuid())
+  content String
+  eventId String
+  userId String
+  createdAt DateTime @default(now())
+
+  event Event @relation(fields: [eventId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
