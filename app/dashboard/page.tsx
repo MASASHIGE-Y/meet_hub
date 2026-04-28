@@ -50,6 +50,12 @@ export default async function DashboardPage() {
                 <h3 className="font-bold">{event.title}</h3>
                 <p>{event.description}</p>
                 <p>{event.date.toDateString()}</p>
+
+                <form action={`/api/events/${event.id}`} method="POST">
+                  <button formMethod="DELETE" className="text-red-500 mt-2">
+                    削除
+                  </button>
+                </form>
               </li>
             ))}
           </ul>
