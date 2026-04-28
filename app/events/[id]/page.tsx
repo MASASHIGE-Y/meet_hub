@@ -1,6 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import CommentForm from "./CommentForm";
+import ParticipationButton from "./ParticipationButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
 type Props = {
   params: Promise<{
@@ -25,12 +28,35 @@ export default async function EventDetailPage({ params }: Props) {
           createdAt: "desc",
         },
       },
+      participations: {
+        include: {
+          user: true,
+        },
+      },
     },
   });
 
   if (!event) {
     notFound();
   }
+
+  // ログインユーザー取得
+  const session = await getServerSession(authOptions);
+
+  const user = session?.user?.email
+    ? await prisma.user.findUnique({
+        where: { email: session.user.email },
+      })
+    : null;
+
+  // 参加済み判定
+  const isParticipating = user
+    ? event.participations.some((p) => p.user.id === user.id)
+    : false;
+
+  console.log("user id:", user?.id);
+  console.log("participations:", event.participations);
+  console.log("isParticipating:", isParticipating);
 
   return (
     <main className="p-8">
@@ -62,6 +88,11 @@ export default async function EventDetailPage({ params }: Props) {
       <p className="mt-2">
         終了: {event.endAt ? new Date(event.endAt).toLocaleString() : "未設定"}
       </p>
+
+      <ParticipationButton
+        eventId={event.id}
+        isParticipating={isParticipating}
+      />
 
       <h2 className="mt-8 text-xl font-bold">コメント</h2>
 

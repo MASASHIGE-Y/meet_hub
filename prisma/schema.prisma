@@ -27,6 +27,7 @@ model User {
   accounts Account[]
   sessions Session[]
   comments Comment[]
+  participations Participation[]
 }
 
 model Account {
@@ -79,6 +80,7 @@ model Event {
   createdAt DateTime @default(now())
 
   comments Comment[]
+  participations Participation[]
 }
 
 model Comment {
@@ -90,4 +92,16 @@ model Comment {
 
   event Event @relation(fields: [eventId], references: [id])
   user User @relation(fields: [userId], references: [id])
+}
+
+model Participation {
+  id String @id @default(cuid())
+  userId String
+  eventId String
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
 }
