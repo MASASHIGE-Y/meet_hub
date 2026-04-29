@@ -54,10 +54,6 @@ export default async function EventDetailPage({ params }: Props) {
     ? event.participations.some((p) => p.user.id === user.id)
     : false;
 
-  console.log("user id:", user?.id);
-  console.log("participations:", event.participations);
-  console.log("isParticipating:", isParticipating);
-
   return (
     <main className="p-8">
       <h1 className="text-2xl font-bold mb-6">{event.title}</h1>
