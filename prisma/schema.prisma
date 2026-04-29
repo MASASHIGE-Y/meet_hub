@@ -30,6 +30,8 @@ model User {
   participations Participation[]
   notifications  Notification[]
   bookmark       Bookmark[]
+  following Follow[] @relation("Following")
+  followers Follow[] @relation("Followers")
 }
 
 model Account {
@@ -128,4 +130,17 @@ model Bookmark {
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId])
+}
+
+
+model Follow {
+  id String @id @default(cuid())
+  followerId String
+  followingId String
+  createdAt DateTime @default(now())
+
+  follower User @relation("Following", fields: [followerId], references: [id], onDelete: Cascade)
+  following User @relation("Followers", fields: [followingId], references: [id], onDelete: Cascade)
+  
+  @@unique([followerId, followingId])
 }

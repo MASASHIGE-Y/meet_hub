@@ -5,6 +5,7 @@ import ParticipationButton from "./ParticipationButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import BookmarkButton from "./BookmarkButton";
+import FollowButton from "@/app/users/[id]/FollowButton";
 
 type Props = {
   params: Promise<{
@@ -69,6 +70,20 @@ export default async function EventDetailPage({ params }: Props) {
 
   const isBookmarked = !!bookmark;
 
+  // フォロー機能
+  const follow = user
+    ? await prisma.follow.findUnique({
+        where: {
+          followerId_followingId: {
+            followerId: user.id,
+            followingId: event.creatorId,
+          },
+        },
+      })
+    : null;
+
+  const isFollowingCreator = !!follow;
+
   return (
     <main className="p-8">
       <h1 className="text-2xl font-bold mb-6">{event.title}</h1>
@@ -83,6 +98,13 @@ export default async function EventDetailPage({ params }: Props) {
         )}
         <span>{event.creator.name}</span>
       </div>
+
+      {user?.id !== event.creatorId && (
+        <FollowButton
+          userId={event.creatorId}
+          isFollowing={isFollowingCreator}
+        />
+      )}
 
       <p className="mt-4">{event.description}</p>
 

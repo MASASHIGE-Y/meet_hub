@@ -34,6 +34,8 @@ export default function RootLayout({
           <Link href="/dashboard">Dashboard</Link>
           <br />
           <Link href="/bookmarks">Bookmarks</Link>
+          <br />
+          <Link href="/following">フォロー中</Link>
         </aside>
 
         {/* メイン */}
