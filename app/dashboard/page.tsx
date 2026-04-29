@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import BookmarkButton from "../events/[id]/BookmarkButton";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -20,6 +21,9 @@ export default async function DashboardPage() {
   const events = await prisma.event.findMany({
     where: {
       creatorId: user?.id,
+    },
+    include: {
+      bookmark: true,
     },
     orderBy: {
       createdAt: "desc",
@@ -50,6 +54,13 @@ export default async function DashboardPage() {
                 <h3 className="font-bold">{event.title}</h3>
                 <p>{event.description}</p>
                 <p>{event.date.toDateString()}</p>
+
+                <BookmarkButton
+                  eventId={event.id}
+                  isBookmarked={event.bookmark.some(
+                    (bookmark) => bookmark.userId === user.id,
+                  )}
+                />
 
                 <form action={`/api/events/${event.id}`} method="POST">
                   <button formMethod="DELETE" className="text-red-500 mt-2">

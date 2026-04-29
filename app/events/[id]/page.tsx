@@ -55,8 +55,6 @@ export default async function EventDetailPage({ params }: Props) {
     ? event.participations.some((p) => p.user.id === user.id)
     : false;
 
-<<<<<<< Updated upstream
-=======
   // ブックマーク機能
   const bookmark = user
     ? await prisma.bookmark.findUnique({
@@ -71,7 +69,6 @@ export default async function EventDetailPage({ params }: Props) {
 
   const isBookmarked = !!bookmark;
 
->>>>>>> Stashed changes
   return (
     <main className="p-8">
       <h1 className="text-2xl font-bold mb-6">{event.title}</h1>
