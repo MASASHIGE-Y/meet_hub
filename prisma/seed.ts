@@ -68,6 +68,14 @@ async function main() {
   });
 
   console.groupCollapsed("Seed room created:", room.id);
+
+  await prisma.notification.create({
+    data: {
+      userId: loginUser.id,
+      message: "テスト通知です！",
+      isRead: false,
+    },
+  });
 }
 
 main()
