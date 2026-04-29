@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Providers from "./providers";
-import Link from "next/link";
+import Sidebar from "./components/Sidebar";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -30,15 +30,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} min-h-screeen flex`}
       >
         {/* サイドバー */}
-        <aside className="w-48 bg-gray-100 p-4 space-y-2">
-          <Link href="/dashboard">Dashboard</Link>
-          <br />
-          <Link href="/bookmarks">Bookmarks</Link>
-          <br />
-          <Link href="/following">フォロー中</Link>
-          <br />
-          <Link href="/messages">メッセージ</Link>
-        </aside>
+        <Sidebar />
 
         {/* メイン */}
         <main className="flex-1">

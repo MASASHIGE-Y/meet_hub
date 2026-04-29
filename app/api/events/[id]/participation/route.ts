@@ -47,6 +47,7 @@ export async function POST(req: Request, { params }: Props) {
       data: {
         userId: event.creatorId,
         message: `${user.name}さんがあなたのイベントに参加しました`,
+        isRead: false,
       },
     });
   }
