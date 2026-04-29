@@ -21,6 +21,16 @@ async function main() {
     },
   });
 
+  const loginUser = await prisma.user.upsert({
+    where: { email: "da12ran2berl8.remuni38@gmail.com" },
+    update: {},
+    create: {
+      name: "Masashige",
+      email: "da12ran2berl8.remuni38@gmail.com",
+      isOnboarded: true,
+    },
+  });
+
   await prisma.follow.upsert({
     where: {
       followerId_followingId: {
@@ -36,6 +46,28 @@ async function main() {
   });
 
   console.log("Seed done");
+
+  const room = await prisma.room.create({
+    data: {
+      users: {
+        connect: [{ id: loginUser.id }, { id: user1.id }],
+      },
+      messages: {
+        create: [
+          {
+            content: "こんにちは！",
+            senderId: loginUser.id,
+          },
+          {
+            content: "こんにちは！よろしくお願いします！",
+            senderId: user1.id,
+          },
+        ],
+      },
+    },
+  });
+
+  console.groupCollapsed("Seed room created:", room.id);
 }
 
 main()

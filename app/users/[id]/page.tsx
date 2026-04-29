@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
 import FollowButton from "./FollowButton";
+import DmButton from "./DmButton";
 
 type Props = {
   params: Promise<{
@@ -58,6 +59,10 @@ export default async function UserProfilePage({ params }: Props) {
 
       {currentUser?.id !== profileUser.id && (
         <FollowButton userId={profileUser.id} isFollowing={isFollowing} />
+      )}
+
+      {currentUser?.id !== profileUser.id && (
+        <DmButton userId={profileUser.id} />
       )}
     </main>
   );

@@ -6,6 +6,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import BookmarkButton from "./BookmarkButton";
 import FollowButton from "@/app/users/[id]/FollowButton";
+import DmButton from "@/app/users/[id]/DmButton";
 
 type Props = {
   params: Promise<{
@@ -100,10 +101,14 @@ export default async function EventDetailPage({ params }: Props) {
       </div>
 
       {user?.id !== event.creatorId && (
-        <FollowButton
-          userId={event.creatorId}
-          isFollowing={isFollowingCreator}
-        />
+        <>
+          <FollowButton
+            userId={event.creatorId}
+            isFollowing={isFollowingCreator}
+          />
+
+          <DmButton userId={event.creatorId} />
+        </>
       )}
 
       <p className="mt-4">{event.description}</p>
