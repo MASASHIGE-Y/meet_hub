@@ -4,6 +4,7 @@ import CommentForm from "./CommentForm";
 import ParticipationButton from "./ParticipationButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import BookmarkButton from "./BookmarkButton";
 
 type Props = {
   params: Promise<{
@@ -54,6 +55,20 @@ export default async function EventDetailPage({ params }: Props) {
     ? event.participations.some((p) => p.user.id === user.id)
     : false;
 
+  // ブックマーク機能
+  const bookmark = user
+    ? await prisma.bookmark.findUnique({
+        where: {
+          userId_eventId: {
+            userId: user.id,
+            eventId: event.id,
+          },
+        },
+      })
+    : null;
+
+  const isBookmarked = !!bookmark;
+
   return (
     <main className="p-8">
       <h1 className="text-2xl font-bold mb-6">{event.title}</h1>
@@ -89,6 +104,8 @@ export default async function EventDetailPage({ params }: Props) {
         eventId={event.id}
         isParticipating={isParticipating}
       />
+
+      <BookmarkButton eventId={event.id} isBookmarked={isBookmarked} />
 
       <h2 className="mt-8 text-xl font-bold">コメント</h2>
 

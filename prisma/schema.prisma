@@ -21,14 +21,15 @@ model User {
   birthDate     DateTime?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  isOnboarded Boolean @default(false)
-  events Event[]
+  isOnboarded   Boolean   @default(false)
+  events        Event[]
 
-  accounts Account[]
-  sessions Session[]
-  comments Comment[]
+  accounts       Account[]
+  sessions       Session[]
+  comments       Comment[]
   participations Participation[]
-  notifications Notification[]
+  notifications  Notification[]
+  bookmark       Bookmark[]
 }
 
 model Account {
@@ -51,10 +52,10 @@ model Account {
 }
 
 model Session {
-  id String @id @default(cuid())
-  sessionToken String @unique
-  userId String
-  expires DateTime
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
@@ -68,50 +69,63 @@ model VerificationToken {
 }
 
 model Event {
-  id        String   @id @default(cuid())
-  title     String
+  id          String    @id @default(cuid())
+  title       String
   description String?
-  date      DateTime
-  location String?
-  capacity Int?
-  startAt DateTime?
-  endAt DateTime?
-  creatorId String
-  creator   User     @relation(fields: [creatorId], references: [id])
-  createdAt DateTime @default(now())
+  date        DateTime
+  location    String?
+  capacity    Int?
+  startAt     DateTime?
+  endAt       DateTime?
+  creatorId   String
+  creator     User      @relation(fields: [creatorId], references: [id])
+  createdAt   DateTime  @default(now())
 
-  comments Comment[]
+  comments       Comment[]
   participations Participation[]
+  bookmark       Bookmark[]
 }
 
 model Comment {
-  id String @id @default(cuid())
-  content String
-  eventId String
-  userId String
+  id        String   @id @default(cuid())
+  content   String
+  eventId   String
+  userId    String
   createdAt DateTime @default(now())
 
   event Event @relation(fields: [eventId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  user  User  @relation(fields: [userId], references: [id])
 }
 
 model Participation {
-  id String @id @default(cuid())
-  userId String
-  eventId String
+  id        String   @id @default(cuid())
+  userId    String
+  eventId   String
   createdAt DateTime @default(now())
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
   event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
 
   @@unique([userId, eventId])
 }
 
 model Notification {
-  id String @id @default(cuid())
-  userId String
-  message String
+  id        String   @id @default(cuid())
+  userId    String
+  message   String
   createdAt DateTime @default(now())
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  userId    String
+  eventId   String
+  createdAt DateTime @default(now())
+
+  user  User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  event Event @relation(fields: [eventId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, eventId])
 }
