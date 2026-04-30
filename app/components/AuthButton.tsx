@@ -1,16 +1,38 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 
 export default function AuthButton() {
   const { data: session } = useSession();
 
   if (session) {
     return (
-      <>
-        <p>{session.user?.email}</p>
-        <button onClick={() => signOut()}>ログアウト</button>
-      </>
+      <div className="flex items-center gap-4">
+        {session.user?.image && (
+          <img
+            src={session.user.image}
+            alt={session.user.name ?? "user avatar"}
+            className="h-10 w-10 rounded-full"
+          />
+        )}
+
+        <span>{session.user?.name}</span>
+
+        <Link
+          href="/events/new"
+          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+        >
+          イベント作成
+        </Link>
+
+        <button
+          onClick={() => signOut({ callbackUrl: "/auth/signin" })}
+          className="rounded bg-gray-800 px-4 py-2 text-white transition hover:bg-gray-700"
+        >
+          ログアウト
+        </button>
+      </div>
     );
   }
 
