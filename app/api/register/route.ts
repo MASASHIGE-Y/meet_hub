@@ -25,8 +25,18 @@ export async function POST(request: Request) {
 
   const { birthDate, bio } = result.data;
 
+  const user = await prisma.user.findUnique({
+    where: {
+      email: session.user.email,
+    },
+  });
+
+  if (!user) {
+    return NextResponse.json({ messagte: "User not found" }, { status: 404 });
+  }
+
   await prisma.user.update({
-    where: { email: session.user.email },
+    where: { id: user.id },
     data: {
       birthDate: new Date(birthDate),
       bio,
