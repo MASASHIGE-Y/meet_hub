@@ -21,7 +21,7 @@ export default function CommentForm({ eventId }: { eventId: string }) {
 
     setContent("");
     setLoading(false);
-    router.refresh(); // シンプルに再取得
+    router.refresh();
   };
 
   return (

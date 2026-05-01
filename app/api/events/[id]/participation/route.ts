@@ -35,12 +35,25 @@ export async function POST(req: Request, { params }: Props) {
     return NextResponse.json({ error: "Event not found" }, { status: 404 });
   }
 
-  const participation = await prisma.participation.create({
-    data: {
-      userId: user.id,
-      eventId: id,
+  const existing = await prisma.participation.findUnique({
+    where: {
+      userId_eventId: {
+        userId: user.id,
+        eventId: id,
+      },
     },
   });
+
+  let participation = existing;
+
+  if (!existing) {
+    participation = await prisma.participation.create({
+      data: {
+        userId: user.id,
+        eventId: id,
+      },
+    });
+  }
 
   if (event.creatorId !== user.id) {
     await prisma.notification.create({
