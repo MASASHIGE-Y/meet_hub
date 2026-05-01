@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
-import Link from "next/link";
 import BackToTopLink from "../components/BackToTopLink";
+import BookmarkList from "../components/BookmarkList";
 
 export default async function BookmarksPage() {
   const session = await getServerSession(authOptions);
@@ -33,25 +33,7 @@ export default async function BookmarksPage() {
       <BackToTopLink />
       <h1 className="text-2xl font-bold mb-4">Bookmarks</h1>
 
-      {bookmarks.length === 0 ? (
-        <p className="text-gray-500">
-          まだブックマークはありません。気になるイベントを保存してみましょう！
-        </p>
-      ) : (
-        <ul className="space-y-4">
-          {bookmarks.map((b) => (
-            <li key={b.id} className="border p-4 rounded">
-              <Link href={`/events/${b.event.id}`}>
-                <h3 className="text-lg font-bold">{b.event.title}</h3>
-              </Link>
-              <p className="text-sm text-gray-600">{b.event.description}</p>
-              <p className="text-xs text-gray-500 mt-2">
-                {new Date(b.event.date).toDateString()}
-              </p>
-            </li>
-          ))}
-        </ul>
-      )}
+      <BookmarkList bookmarks={bookmarks} />
     </main>
   );
 }
