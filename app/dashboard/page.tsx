@@ -2,9 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import BookmarkButton from "../events/[id]/BookmarkButton";
-import Link from "next/link";
 import BackToTopLink from "../components/BackToTopLink";
+import DashboardEventList from "../components/DashboardEventList";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -48,32 +47,7 @@ export default async function DashboardPage() {
       <section className="mt-8">
         <h2 className="text-xl font-bold">あなたのイベント</h2>
 
-        {events.length === 0 ? (
-          <p className="mt-4">まだイベントはありません</p>
-        ) : (
-          <ul className="mt-4 space-y-3">
-            {events.map((event) => (
-              <li key={event.id} className="border p-4">
-                <h3 className="font-bold">{event.title}</h3>
-                <p>{event.description}</p>
-                <p>{event.date.toDateString()}</p>
-
-                <BookmarkButton
-                  eventId={event.id}
-                  isBookmarked={event.bookmark.some(
-                    (bookmark) => bookmark.userId === user.id,
-                  )}
-                />
-
-                <form action={`/api/events/${event.id}`} method="POST">
-                  <button formMethod="DELETE" className="text-red-500 mt-2">
-                    削除
-                  </button>
-                </form>
-              </li>
-            ))}
-          </ul>
-        )}
+        <DashboardEventList events={events} userId={user.id} />
       </section>
     </main>
   );
