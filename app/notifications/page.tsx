@@ -3,6 +3,7 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
+import BackToTopLink from "../components/BackToTopLink";
 
 export default async function NotificationPage() {
   const session = await getServerSession(authOptions);
@@ -28,16 +29,23 @@ export default async function NotificationPage() {
     },
   });
 
+  async function toggleRead(id: string, isRead: boolean) {
+    "use server";
+
+    await prisma.notification.update({
+      where: { id },
+      data: {
+        isRead: !isRead,
+      },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/notifications");
+  }
+
   return (
     <main className="p-8">
-      <div className="mb-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 hover:underline"
-        >
-          ← トップへ戻る
-        </Link>
-      </div>
+      <BackToTopLink />
 
       <h1 className="text-2xl font-bold mb-4">通知</h1>
 
@@ -59,19 +67,11 @@ export default async function NotificationPage() {
               </p>
 
               <form
-                action={async () => {
-                  "use server";
-
-                  await prisma.notification.update({
-                    where: { id: notification.id },
-                    data: {
-                      isRead: !notification.isRead,
-                    },
-                  });
-
-                  revalidatePath("/");
-                  revalidatePath("/notifications");
-                }}
+                action={toggleRead.bind(
+                  null,
+                  notification.id,
+                  notification.isRead,
+                )}
               >
                 <button className="mt-2 text-sm text-blue-500">
                   {notification.isRead ? "未読に戻す" : "既読にする"}

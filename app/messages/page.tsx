@@ -3,6 +3,7 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import MessageForm from "./MessageForm";
+import BackToTopLink from "../components/BackToTopLink";
 
 type Props = {
   searchParams: Promise<{
@@ -57,14 +58,7 @@ export default async function MessagesPage({ searchParams }: Props) {
 
   return (
     <main className="flex h-screen">
-      <div className="mb-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 hover:underline"
-        >
-          ← トップへ戻る
-        </Link>
-      </div>
+      <BackToTopLink />
 
       <aside className="w-64 border-r p-4">
         <h1 className="mb-4 text-xl font-bold">メッセージ</h1>
