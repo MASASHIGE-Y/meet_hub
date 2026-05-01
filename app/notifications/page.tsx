@@ -69,6 +69,7 @@ export default async function NotificationPage() {
                     },
                   });
 
+                  revalidatePath("/");
                   revalidatePath("/notifications");
                 }}
               >
