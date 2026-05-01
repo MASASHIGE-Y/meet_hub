@@ -76,6 +76,47 @@ async function main() {
       isRead: false,
     },
   });
+
+  await prisma.event.createMany({
+    data: [
+      {
+        title: "イベント1",
+        description: "テスト1",
+        creatorId: user1.id,
+        date: new Date(),
+      },
+      {
+        title: "イベント2",
+        description: "テスト2",
+        creatorId: user1.id,
+        date: new Date(),
+      },
+      {
+        title: "イベント3",
+        description: "テスト3",
+        creatorId: user1.id,
+        date: new Date(),
+      },
+      {
+        title: "イベント4",
+        description: "テスト4",
+        creatorId: user1.id,
+        date: new Date(),
+      },
+      {
+        title: "イベント5",
+        description: "テスト5",
+        creatorId: user1.id,
+        date: new Date(),
+      },
+      {
+        title: "イベント6",
+        description: "テスト6",
+        creatorId: user1.id,
+        date: new Date(),
+      },
+    ],
+  });
 }
 
 main()
