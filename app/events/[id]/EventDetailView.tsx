@@ -60,7 +60,10 @@ export default function EventDetailView({
       </div>
       <h1 className="text-2xl font-bold mb-6">{event.title}</h1>
 
-      <div className="mt-4 flex items-center gap-2">
+      <Link
+        href={`/users/${event.creator.id}`}
+        className="mt-4 flex items-center gap-2 hover:underline"
+      >
         {event.creator.image && (
           <img
             src={event.creator.image}
@@ -68,8 +71,8 @@ export default function EventDetailView({
             className="h-8 w-8 rounded-full"
           />
         )}
-        <span>{event.creator.name}</span>
-      </div>
+        <span>{event.creator.name ?? "Unknown user"}</span>
+      </Link>
 
       {user?.id !== event.creatorId && (
         <>

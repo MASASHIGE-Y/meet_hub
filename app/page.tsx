@@ -71,7 +71,7 @@ export default async function Home({ searchParams }: Props) {
       <EventCreateForm />
       <header className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-bold">meet_hub</h1>
-        <AuthButton />
+        <AuthButton userId={user?.id} />
       </header>
 
       <section>
@@ -110,18 +110,18 @@ export default async function Home({ searchParams }: Props) {
             {events.map((event) => (
               <li key={event.id} className="rounded border p-4">
                 <div className="mb-2 flex items-center gap-2">
-                  {event.creator.image && (
-                    <img
-                      src={event.creator.image}
-                      alt={event.creator.name ?? "user avatar"}
-                      className="h-8 w-8 rounded-full"
-                    />
-                  )}
-
-                  <Link href={`/users/${event.creator.id}`}>
-                    <span className="font-semibold hover:underline cursor-pointer">
-                      {event.creator.name ?? "Unknown user"}
-                    </span>
+                  <Link
+                    href={`/users/${event.creator.id}`}
+                    className="mb-2 flex items-center gap-2 hover:underline"
+                  >
+                    {event.creator.image && (
+                      <img
+                        src={event.creator.image}
+                        alt={event.creator.name ?? "user avatar"}
+                        className="h-8 w-8 rounded-full"
+                      />
+                    )}
+                    <span>{event.creator.name ?? "Unknown user"}</span>
                   </Link>
                 </div>
 

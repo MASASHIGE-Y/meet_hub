@@ -3,21 +3,42 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 
-export default function AuthButton() {
+type Props = {
+  userId?: string;
+};
+
+export default function AuthButton({ userId }: Props) {
   const { data: session } = useSession();
 
   if (session) {
     return (
       <div className="flex items-center gap-4">
-        {session.user?.image && (
-          <img
-            src={session.user.image}
-            alt={session.user.name ?? "user avatar"}
-            className="h-10 w-10 rounded-full"
-          />
+        {userId ? (
+          <Link
+            href={`/users/${userId}`}
+            className="flex items-center gap-2 hover:underline"
+          >
+            {session.user?.image && (
+              <img
+                src={session.user.image}
+                alt={session.user.name ?? "user avatar"}
+                className="h-10 w-10 rounded-full"
+              />
+            )}
+            <span>{session.user?.name}</span>
+          </Link>
+        ) : (
+          <div className="flex items-center gap-2">
+            {session.user?.image && (
+              <img
+                src={session.user.image}
+                alt={session.user.name ?? "user avatar"}
+                className="h-10 w-10 rounded-full"
+              />
+            )}
+            <span>{session.user?.name}</span>
+          </div>
         )}
-
-        <span>{session.user?.name}</span>
 
         <Link
           href="/events/new"
