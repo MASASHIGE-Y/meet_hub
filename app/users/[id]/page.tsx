@@ -2,17 +2,18 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { notFound } from "next/navigation";
-import FollowButton from "./FollowButton";
-import DmButton from "./DmButton";
+import UserEventList from "./UserEventList";
+import UserProfileTabs from "./UserProfileTabs";
+import UserProfileHeader from "./UserProfileHeader";
 
 type Props = {
-  params: Promise<{
-    id: string;
-  }>;
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ tab?: string }>;
 };
 
-export default async function UserProfilePage({ params }: Props) {
+export default async function UserProfilePage({ params, searchParams }: Props) {
   const { id } = await params;
+  const { tab } = await searchParams;
 
   const profileUser = await prisma.user.findUnique({
     where: { id },
@@ -43,27 +44,52 @@ export default async function UserProfilePage({ params }: Props) {
 
   const isFollowing = !!follow;
 
+  const currentTab = tab ?? "created";
+
+  const createdEvents = await prisma.event.findMany({
+    where: { creatorId: profileUser.id },
+  });
+
+  const participatedEvents = await prisma.event.findMany({
+    where: {
+      participations: {
+        some: { userId: profileUser.id },
+      },
+    },
+  });
+
+  const bookmarkedEvents = await prisma.event.findMany({
+    where: {
+      bookmark: {
+        some: { userId: profileUser.id },
+      },
+    },
+  });
+
+  const commentedEvents = await prisma.event.findMany({
+    where: {
+      comments: {
+        some: { userId: profileUser.id },
+      },
+    },
+  });
+
   return (
     <main className="p-8">
-      <h1 className="text-2xl font-bold">{profileUser.name}</h1>
+      <UserProfileHeader
+        profileUser={profileUser}
+        currentUser={currentUser}
+        isFollowing={isFollowing}
+      />
 
-      {profileUser.image && (
-        <img
-          src={profileUser.image}
-          alt={profileUser.name ?? "user avatar"}
-          className="h-16 w-16 rounded-full mt-4"
-        />
+      <UserProfileTabs userId={id} currentTab={currentTab} />
+
+      {currentTab === "created" && <UserEventList events={createdEvents} />}
+      {currentTab === "participated" && (
+        <UserEventList events={participatedEvents} />
       )}
-
-      <p className="mt-4">{profileUser.bio}</p>
-
-      {currentUser?.id !== profileUser.id && (
-        <FollowButton userId={profileUser.id} isFollowing={isFollowing} />
-      )}
-
-      {currentUser?.id !== profileUser.id && (
-        <DmButton userId={profileUser.id} />
-      )}
+      {currentTab === "bookmark" && <UserEventList events={bookmarkedEvents} />}
+      {currentTab === "comments" && <UserEventList events={commentedEvents} />}
     </main>
   );
 }
