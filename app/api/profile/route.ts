@@ -10,10 +10,9 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const formData = await req.formData();
+  const body = await req.json();
 
-  const bio = formData.get("bio") as string;
-  const birthDate = formData.get("birthDate") as string;
+  const { bio, birthDate } = body;
 
   await prisma.user.update({
     where: {
@@ -25,5 +24,5 @@ export async function POST(req: Request) {
     },
   });
 
-  return NextResponse.redirect("http://localhost:3000/dashboard");
+  return NextResponse.json({ message: "Profile updated" });
 }

@@ -14,6 +14,7 @@ type Props = {
 
 import FollowButton from "./FollowButton";
 import DmButton from "./DmButton";
+import Link from "next/link";
 
 export default function UserProfileHeader({
   profileUser,
@@ -22,6 +23,14 @@ export default function UserProfileHeader({
 }: Props) {
   return (
     <div>
+      <div className="mb-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 hover:underline"
+        >
+          ← トップへ戻る
+        </Link>
+      </div>
       <h1 className="text-2xl font-bold">{profileUser.name}</h1>
 
       {profileUser.image && (
@@ -39,6 +48,15 @@ export default function UserProfileHeader({
       )}
 
       <p className="mt-4">{profileUser.bio}</p>
+
+      {currentUser?.id === profileUser.id && (
+        <Link
+          href="/profile/edit"
+          className="mt-2 inline-block rounded bg-gray-200 px-3 py-1 text-sm hover:bg-gray-300"
+        >
+          プロフィール編集
+        </Link>
+      )}
 
       {currentUser?.id !== profileUser.id && (
         <div className="mt-2 flex gap-2">
