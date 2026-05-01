@@ -1,10 +1,12 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export default function CommentForm({ eventId }: { eventId: string }) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ export default function CommentForm({ eventId }: { eventId: string }) {
 
     setContent("");
     setLoading(false);
-    location.reload(); // シンプルに再取得
+    router.refresh(); // シンプルに再取得
   };
 
   return (
