@@ -3,6 +3,7 @@ import { authOptions } from "../api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import BookmarkButton from "../events/[id]/BookmarkButton";
+import Link from "next/link";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -36,6 +37,14 @@ export default async function DashboardPage() {
 
   return (
     <main className="p-8">
+      <div className="mb-4">
+        <Link
+          href="/"
+          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 hover:underline"
+        >
+          ← トップへ戻る
+        </Link>
+      </div>
       <h1 className="text-2xl font-bold">Dashboard</h1>
 
       <p>名前：{user?.name}</p>
