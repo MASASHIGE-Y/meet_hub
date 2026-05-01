@@ -1,9 +1,10 @@
 import { getServerSession } from "next-auth";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
-import Link from "next/link";
 import MessageForm from "./MessageForm";
 import BackToTopLink from "../components/BackToTopLink";
+import RoomList from "../components/RoomList ";
+import MessageList from "../components/MessageList";
 
 type Props = {
   searchParams: Promise<{
@@ -63,29 +64,11 @@ export default async function MessagesPage({ searchParams }: Props) {
       <aside className="w-64 border-r p-4">
         <h1 className="mb-4 text-xl font-bold">メッセージ</h1>
 
-        {rooms.length === 0 ? (
-          <p>ルームはありません</p>
-        ) : (
-          <ul className="space-y-2">
-            {rooms.map((room) => {
-              const partner = room.users.find((u) => u.id !== user.id);
-
-              return (
-                <Link key={room.id} href={`/messages?roomId=${room.id}`}>
-                  <li
-                    className={`rounded border p-2" ${
-                      selectedRoom?.id === room.id
-                        ? "bg-gray-100 font-bold"
-                        : ""
-                    }`}
-                  >
-                    {partner?.name ?? "Unknown user"}
-                  </li>
-                </Link>
-              );
-            })}
-          </ul>
-        )}
+        <RoomList
+          rooms={rooms}
+          currentUserId={user.id}
+          selectedRoomId={selectedRoom?.id}
+        />
       </aside>
 
       <section className="flex-1 p-4">
@@ -95,16 +78,7 @@ export default async function MessagesPage({ searchParams }: Props) {
           <>
             <h2 className="mb-4 text-lg font-bold">メッセージ一覧</h2>
 
-            <ul className="space-y-2">
-              {selectedRoom.messages.map((message) => (
-                <li key={message.id} className="rounded border p-2">
-                  <p className="text-sm text-gray-500">
-                    {message.sender.name ?? "Unknown user"}
-                  </p>
-                  <p>{message.content}</p>
-                </li>
-              ))}
-            </ul>
+            <MessageList messages={selectedRoom.messages} />
 
             <MessageForm roomId={selectedRoom.id} />
           </>
