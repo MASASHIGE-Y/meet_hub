@@ -28,6 +28,14 @@ export default async function FollowingPage() {
     },
   });
 
+  type FollowWithUser = {
+    id: string;
+    following: {
+      id: string;
+      name: string | null;
+    };
+  };
+
   return (
     <main className="p-8">
       <BackToTopLink />
@@ -38,7 +46,7 @@ export default async function FollowingPage() {
         <p>まだ誰もフォローしていません</p>
       ) : (
         <ul className="space-y-4">
-          {follows.map((f) => (
+          {follows.map((f: FollowWithUser) => (
             <li key={f.id} className="border p-4 rounded">
               <Link href={`/users/${f.following.id}`}>
                 <h2 className="font-bold hover:underline">

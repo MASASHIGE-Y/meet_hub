@@ -3,7 +3,6 @@ import AuthButton from "./components/AuthButton";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
-import EventCreateForm from "./components/EventCreateForm";
 import EventTabs from "./components/EventTabs";
 import Pagination from "./components/Pagination";
 import EventList from "./components/EventList";
@@ -71,7 +70,6 @@ export default async function Home({ searchParams }: Props) {
 
   return (
     <main className="p-8 space-y-6">
-      <EventCreateForm />
       <header className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-bold">meet_hub</h1>
         <AuthButton userId={user?.id} />

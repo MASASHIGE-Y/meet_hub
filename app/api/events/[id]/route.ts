@@ -5,8 +5,9 @@ import { prisma } from "@/lib/prisma";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
+  const { id } = await params;
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
@@ -23,7 +24,7 @@ export async function DELETE(
 
   await prisma.event.delete({
     where: {
-      id: params.id,
+      id,
       creatorId: user.id, // 自分のだけ消す
     },
   });

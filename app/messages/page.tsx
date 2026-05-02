@@ -12,6 +12,22 @@ type Props = {
   }>;
 };
 
+type RoomWithUsersAndMessages = {
+  id: string;
+  users: {
+    id: string;
+    name: string | null;
+  }[];
+  messages: {
+    id: string;
+    content: string;
+    sender: {
+      id: string;
+      name: string | null;
+    };
+  }[];
+};
+
 export default async function MessagesPage({ searchParams }: Props) {
   const { roomId } = await searchParams;
 
@@ -54,7 +70,7 @@ export default async function MessagesPage({ searchParams }: Props) {
   });
 
   const selectedRoom = roomId
-    ? rooms.find((room) => room.id === roomId)
+    ? rooms.find((room: RoomWithUsersAndMessages) => room.id === roomId)
     : rooms[0];
 
   return (

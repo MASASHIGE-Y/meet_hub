@@ -50,7 +50,10 @@ export default async function EventDetailPage({ params }: Props) {
 
   // 参加済み判定
   const isParticipating = user
-    ? event.participations.some((p) => p.user.id === user.id)
+    ? event.participations.some(
+        (participation: { user: { id: string } }) =>
+          participation.user.id === user.id,
+      )
     : false;
 
   // ブックマーク機能
