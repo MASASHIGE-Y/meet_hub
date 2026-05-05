@@ -70,6 +70,7 @@ model Event {
   description String?
   date      DateTime
   creatorId String
-  creator   User     @relation(fields: [creatorId], references: [id])
   createdAt DateTime @default(now())
+
+  creator   User     @relation(fields: [creatorId], references: [id])
 }
