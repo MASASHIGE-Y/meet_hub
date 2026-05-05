@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import BackToTopLink from "../components/BackToTopLink";
 import BookmarkList from "../components/BookmarkList";
+import { authOptions } from "@/lib/auth";
 
 export default async function BookmarksPage() {
   const session = await getServerSession(authOptions);

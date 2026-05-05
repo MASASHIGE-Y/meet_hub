@@ -1,7 +1,13 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { authOptions } from "@/lib/auth";
+import { z } from "zod";
+
+const schema = z.object({
+  bio: z.string().max(140, "bioは140文字以内"),
+  birthDate: z.string().optional(),
+});
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -12,7 +18,16 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const { bio, birthDate } = body;
+  const result = schema.safeParse(body);
+
+  if (!result.success) {
+    return NextResponse.json(
+      { error: result.error.flatten() },
+      { status: 400 },
+    );
+  }
+
+  const { bio, birthDate } = result.data;
 
   await prisma.user.update({
     where: {

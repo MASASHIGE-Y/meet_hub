@@ -1,8 +1,8 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import EventDetailView from "./EventDetailView";
+import { authOptions } from "@/lib/auth";
 
 type Props = {
   params: Promise<{

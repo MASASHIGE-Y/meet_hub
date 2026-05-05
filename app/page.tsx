@@ -1,11 +1,11 @@
 import { prisma } from "@/lib/prisma";
 import AuthButton from "./components/AuthButton";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import EventTabs from "./components/EventTabs";
 import Pagination from "./components/Pagination";
 import EventList from "./components/EventList";
+import { authOptions } from "@/lib/auth";
 
 type Props = {
   searchParams: Promise<{

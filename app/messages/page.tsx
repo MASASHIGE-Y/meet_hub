@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import MessageForm from "./MessageForm";
 import BackToTopLink from "../components/BackToTopLink";
 import RoomList from "../components/RoomList ";
 import MessageList from "../components/MessageList";
+import { authOptions } from "@/lib/auth";
 
 type Props = {
   searchParams: Promise<{

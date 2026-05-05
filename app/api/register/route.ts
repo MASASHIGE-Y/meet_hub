@@ -1,8 +1,8 @@
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import z from "zod";
-import { authOptions } from "../auth/[...nextauth]/route";
 
 const registerSchema = z.object({
   birthDate: z.string().min(1, "生年月日を入力してください"),

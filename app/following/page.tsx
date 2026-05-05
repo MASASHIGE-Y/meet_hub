@@ -1,8 +1,8 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import BackToTopLink from "../components/BackToTopLink";
+import { authOptions } from "@/lib/auth";
 
 export default async function FollowingPage() {
   const session = await getServerSession(authOptions);

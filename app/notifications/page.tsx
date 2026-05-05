@@ -1,9 +1,9 @@
 import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import BackToTopLink from "../components/BackToTopLink";
 import NotificationList from "../components/NotificationList";
+import { authOptions } from "@/lib/auth";
 
 export default async function NotificationPage() {
   const session = await getServerSession(authOptions);
