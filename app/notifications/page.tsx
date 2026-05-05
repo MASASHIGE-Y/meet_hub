@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import BackToTopLink from "../components/BackToTopLink";
 import NotificationList from "../components/NotificationList";
 import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 export default async function NotificationPage() {
   const session = await getServerSession(authOptions);
@@ -12,9 +13,7 @@ export default async function NotificationPage() {
     return <p>Unauthorized</p>;
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
     return <p>User not found</p>;

@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { findUserByEmail } from "@/lib/user";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 
@@ -19,9 +20,7 @@ export async function POST(req: Request, { params }: Props) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });

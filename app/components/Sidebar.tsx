@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 export default async function Sidebar() {
   const session = await getServerSession(authOptions);
@@ -9,9 +10,7 @@ export default async function Sidebar() {
   let unreadCount = 0;
 
   if (session?.user?.email) {
-    const user = await prisma.user.findUnique({
-      where: { email: session.user.email },
-    });
+    const user = await findUserByEmail(session.user.email);
 
     if (user) {
       unreadCount = await prisma.notification.count({

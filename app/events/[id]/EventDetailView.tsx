@@ -3,7 +3,6 @@ import ParticipationButton from "./ParticipationButton";
 import BookmarkButton from "./BookmarkButton";
 import FollowButton from "@/app/users/[id]/FollowButton";
 import DmButton from "@/app/users/[id]/DmButton";
-import { Parisienne } from "next/font/google";
 import Link from "next/link";
 type User = {
   id: string;

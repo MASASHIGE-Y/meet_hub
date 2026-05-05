@@ -3,6 +3,7 @@ import { prisma } from "@/lib/prisma";
 import Link from "next/link";
 import BackToTopLink from "../components/BackToTopLink";
 import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 export default async function FollowingPage() {
   const session = await getServerSession(authOptions);
@@ -11,9 +12,7 @@ export default async function FollowingPage() {
     return <p>Unauthorized</p>;
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
     return <p>User not found</p>;

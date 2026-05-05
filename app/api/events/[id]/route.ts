@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
 import z from "zod";
+import { findUserByEmail } from "@/lib/user";
 
 const updateEventSchema = z.object({
   title: z.string().min(1, "タイトルは必須です"),
@@ -52,9 +53,7 @@ export async function PATCH(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });

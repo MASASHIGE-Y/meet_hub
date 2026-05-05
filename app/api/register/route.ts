@@ -1,5 +1,6 @@
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { findUserByEmail } from "@/lib/user";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import z from "zod";
@@ -25,11 +26,7 @@ export async function POST(request: Request) {
 
   const { birthDate, bio } = result.data;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session.user.email,
-    },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
     return NextResponse.json({ message: "User not found" }, { status: 404 });

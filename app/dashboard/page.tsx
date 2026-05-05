@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import BackToTopLink from "../components/BackToTopLink";
 import DashboardEventList from "../components/DashboardEventList";
 import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -13,11 +14,11 @@ export default async function DashboardPage() {
     redirect("/api/auth/signin");
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session.user?.email ?? "",
-    },
-  });
+  if (!session?.user?.email) {
+    redirect("/api/auth/signin");
+  }
+
+  const user = await findUserByEmail(session.user.email);
 
   const events = await prisma.event.findMany({
     where: {

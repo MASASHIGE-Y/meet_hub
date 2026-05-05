@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import BackToTopLink from "../components/BackToTopLink";
 import BookmarkList from "../components/BookmarkList";
 import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 export default async function BookmarksPage() {
   const session = await getServerSession(authOptions);
@@ -11,11 +12,7 @@ export default async function BookmarksPage() {
     return <p>Unauthorized</p>;
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session.user.email,
-    },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) return <p>User not found</p>;
 

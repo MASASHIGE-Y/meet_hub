@@ -5,6 +5,7 @@ import BackToTopLink from "../components/BackToTopLink";
 import RoomList from "../components/RoomList";
 import MessageList from "../components/MessageList";
 import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 type Props = {
   searchParams: Promise<{
@@ -37,9 +38,7 @@ export default async function MessagesPage({ searchParams }: Props) {
     return <p>Unauthorized</p>;
   }
 
-  const user = await prisma.user.findUnique({
-    where: { email: session.user.email },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
     return <p>User not found</p>;

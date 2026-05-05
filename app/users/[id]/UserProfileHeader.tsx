@@ -15,6 +15,7 @@ type Props = {
 import FollowButton from "./FollowButton";
 import DmButton from "./DmButton";
 import Link from "next/link";
+import BackToTopLink from "@/app/components/BackToTopLink";
 
 export default function UserProfileHeader({
   profileUser,
@@ -23,14 +24,7 @@ export default function UserProfileHeader({
 }: Props) {
   return (
     <div>
-      <div className="mb-4">
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-gray-700 hover:underline"
-        >
-          ← トップへ戻る
-        </Link>
-      </div>
+      <BackToTopLink />
       <h1 className="text-2xl font-bold">{profileUser.name}</h1>
 
       {profileUser.image && (
