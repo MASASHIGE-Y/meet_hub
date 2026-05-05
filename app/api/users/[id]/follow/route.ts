@@ -27,6 +27,23 @@ export async function POST(req: Request, { params }: Props) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
+  // フォロー対象ユーザー取得
+  const targetUser = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!targetUser) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  // 自分自身チェック
+  if (targetUser.id === user.id) {
+    return NextResponse.json(
+      { error: "Cannot follow yourself" },
+      { status: 400 },
+    );
+  }
+
   await prisma.follow.create({
     data: {
       followerId: user.id,
@@ -52,6 +69,15 @@ export async function DELETE(req: Request, { params }: Props) {
   });
 
   if (!user) {
+    return NextResponse.json({ error: "User not found" }, { status: 404 });
+  }
+
+  // フォロー対象ユーザー取得
+  const targetUser = await prisma.user.findUnique({
+    where: { id },
+  });
+
+  if (!targetUser) {
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
