@@ -11,9 +11,24 @@ type Props = {
   searchParams: Promise<{ tab?: string }>;
 };
 
+type UserProfileTab = "created" | "participated" | "bookmark" | "comments";
+
+const tabs: UserProfileTab[] = [
+  "created",
+  "participated",
+  "bookmark",
+  "comments",
+];
+
 export default async function UserProfilePage({ params, searchParams }: Props) {
   const { id } = await params;
   const { tab } = await searchParams;
+
+  const currentTab: UserProfileTab = tabs.includes(tab as UserProfileTab)
+    ? (tab as UserProfileTab)
+    : "created";
+
+  let events: Awaited<ReturnType<typeof prisma.event.findMany>> = [];
 
   const profileUser = await prisma.user.findUnique({
     where: { id },
@@ -44,35 +59,41 @@ export default async function UserProfilePage({ params, searchParams }: Props) {
 
   const isFollowing = !!follow;
 
-  const currentTab = tab ?? "created";
+  if (currentTab === "created") {
+    events = await prisma.event.findMany({
+      where: { creatorId: profileUser.id },
+    });
+  }
 
-  const createdEvents = await prisma.event.findMany({
-    where: { creatorId: profileUser.id },
-  });
-
-  const participatedEvents = await prisma.event.findMany({
-    where: {
-      participations: {
-        some: { userId: profileUser.id },
+  if (currentTab === "participated") {
+    events = await prisma.event.findMany({
+      where: {
+        participations: {
+          some: { userId: profileUser.id },
+        },
       },
-    },
-  });
+    });
+  }
 
-  const bookmarkedEvents = await prisma.event.findMany({
-    where: {
-      bookmark: {
-        some: { userId: profileUser.id },
+  if (currentTab === "bookmark") {
+    events = await prisma.event.findMany({
+      where: {
+        bookmark: {
+          some: { userId: profileUser.id },
+        },
       },
-    },
-  });
+    });
+  }
 
-  const commentedEvents = await prisma.event.findMany({
-    where: {
-      comments: {
-        some: { userId: profileUser.id },
+  if (currentTab === "comments") {
+    events = await prisma.event.findMany({
+      where: {
+        comments: {
+          some: { userId: profileUser.id },
+        },
       },
-    },
-  });
+    });
+  }
 
   return (
     <main className="p-8">
@@ -84,12 +105,7 @@ export default async function UserProfilePage({ params, searchParams }: Props) {
 
       <UserProfileTabs userId={id} currentTab={currentTab} />
 
-      {currentTab === "created" && <UserEventList events={createdEvents} />}
-      {currentTab === "participated" && (
-        <UserEventList events={participatedEvents} />
-      )}
-      {currentTab === "bookmark" && <UserEventList events={bookmarkedEvents} />}
-      {currentTab === "comments" && <UserEventList events={commentedEvents} />}
+      <UserEventList events={events} />
     </main>
   );
 }
