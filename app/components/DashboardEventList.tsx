@@ -35,11 +35,19 @@ export default function DashboardEventList({ events, userId }: Props) {
             )}
           />
 
-          <form action={`/api/events/${event.id}`} method="POST">
-            <button formMethod="DELETE" className="text-red-500 mt-2">
-              削除
-            </button>
-          </form>
+          <button
+            onClick={async () => {
+              if (!confirm("本当に削除しますか？")) return;
+
+              await fetch(`/api/events/${event.id}`, {
+                method: "DELETE",
+              });
+              location.reload();
+            }}
+            className="text-red-500 mt-2"
+          >
+            削除
+          </button>
         </li>
       ))}
     </ul>
