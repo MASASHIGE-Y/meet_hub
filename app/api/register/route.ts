@@ -32,7 +32,7 @@ export async function POST(request: Request) {
   });
 
   if (!user) {
-    return NextResponse.json({ messagte: "User not found" }, { status: 404 });
+    return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
 
   await prisma.user.update({

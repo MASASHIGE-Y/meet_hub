@@ -33,7 +33,7 @@ export default function RoomList({
         return (
           <Link key={room.id} href={`/messages?roomId=${room.id}`}>
             <li
-              className={`rounded border p-2" ${
+              className={`rounded border p-2 ${
                 selectedRoomId === room.id ? "bg-gray-100 font-bold" : ""
               }`}
             >

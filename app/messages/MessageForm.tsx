@@ -7,7 +7,7 @@ type Props = {
   roomId: string;
 };
 
-export default function MessageButton({ roomId }: Props) {
+export default function MessageForm({ roomId }: Props) {
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
