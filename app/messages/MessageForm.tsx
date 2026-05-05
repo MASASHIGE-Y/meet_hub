@@ -1,22 +1,35 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 
 type Props = {
   roomId: string;
 };
 
+const messageSchema = z.object({
+  content: z.string().min(1, "メッセージを入力してください"),
+});
+
+type MessageFormData = z.infer<typeof messageSchema>;
+
 export default function MessageForm({ roomId }: Props) {
-  const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<MessageFormData>({
+    resolver: zodResolver(messageSchema),
+  });
 
-    if (!content.trim()) return;
-
+  const onSubmit = async (data: MessageFormData) => {
     setLoading(true);
 
     await fetch(`/api/messages`, {
@@ -26,23 +39,25 @@ export default function MessageForm({ roomId }: Props) {
       },
       body: JSON.stringify({
         roomId,
-        content,
+        content: data.content,
       }),
     });
 
-    setContent("");
+    reset();
     setLoading(false);
     router.refresh();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-4 flex gap-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex gap-2">
       <input
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
-        placeholder="メッセージを入力"
+        {...register("content")}
         className="flex-1 rounded border px-3 py-2"
+        placeholder="メッセージを入力"
       />
+      {errors.content && (
+        <p className="text-sm text-red-500">{errors.content.message}</p>
+      )}
 
       <button
         type="submit"
