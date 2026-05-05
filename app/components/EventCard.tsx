@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 type Event = {
@@ -31,10 +32,12 @@ export default function EventCard({ event }: Props) {
           className="mb-2 flex items-center gap-2 hover:underline"
         >
           {event.creator.image && (
-            <img
+            <Image
               src={event.creator.image}
               alt={event.creator.name ?? "user avatar"}
-              className="h-8 w-8 rounded-full"
+              width={32}
+              height={32}
+              className="rounded-full"
             />
           )}
           <span>{event.creator.name ?? "Unknown user"}</span>

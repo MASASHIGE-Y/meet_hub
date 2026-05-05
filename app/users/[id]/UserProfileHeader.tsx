@@ -16,6 +16,7 @@ import FollowButton from "./FollowButton";
 import DmButton from "./DmButton";
 import Link from "next/link";
 import BackToTopLink from "@/app/components/BackToTopLink";
+import Image from "next/image";
 
 export default function UserProfileHeader({
   profileUser,
@@ -28,10 +29,12 @@ export default function UserProfileHeader({
       <h1 className="text-2xl font-bold">{profileUser.name}</h1>
 
       {profileUser.image && (
-        <img
+        <Image
           src={profileUser.image}
           alt={profileUser.name ?? "user avatar"}
-          className="w-16 h-16 rounded-full mt-4"
+          width={64}
+          height={64}
+          className="rounded-full"
         />
       )}
 

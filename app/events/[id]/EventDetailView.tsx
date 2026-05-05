@@ -4,6 +4,7 @@ import BookmarkButton from "./BookmarkButton";
 import FollowButton from "@/app/users/[id]/FollowButton";
 import DmButton from "@/app/users/[id]/DmButton";
 import Link from "next/link";
+import Image from "next/image";
 type User = {
   id: string;
   name: string | null;
@@ -64,10 +65,12 @@ export default function EventDetailView({
         className="mt-4 flex items-center gap-2 hover:underline"
       >
         {event.creator.image && (
-          <img
+          <Image
             src={event.creator.image}
             alt={event.creator.name ?? "user avatar"}
-            className="h-8 w-8 rounded-full"
+            width={32}
+            height={32}
+            className="rounded-full"
           />
         )}
         <span>{event.creator.name ?? "Unknown user"}</span>
@@ -116,10 +119,12 @@ export default function EventDetailView({
           event.participations.map((participation) => (
             <li key={participation.id} className="flex items-center gap-2">
               {participation.user.image && (
-                <img
+                <Image
                   src={participation.user.image}
                   alt={participation.user.name ?? "user avatar"}
-                  className="h-8 w-8 rounded-full"
+                  width={32}
+                  height={32}
+                  className="rounded-full"
                 />
               )}
               <span>{participation.user.name ?? "Unknown user"}</span>
