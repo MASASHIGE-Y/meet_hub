@@ -21,6 +21,26 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
+  // room.usersに自分が含まれるか確認
+  const room = await prisma.room.findUnique({
+    where: {
+      id: body.roomId,
+    },
+    include: {
+      users: true,
+    },
+  });
+
+  if (!room) {
+    return NextResponse.json({ error: "Room not found" }, { status: 404 });
+  }
+
+  const isMember = room.users.some((roomUser) => roomUser.id === user.id);
+
+  if (!isMember) {
+    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  }
+
   const message = await prisma.message.create({
     data: {
       content: body.content,
