@@ -1,37 +1,53 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+const commentSchema = z.object({
+  content: z.string().min(1, "コメントを入力してください"),
+});
+
+type CommentFormData = z.infer<typeof commentSchema>;
 
 export default function CommentForm({ eventId }: { eventId: string }) {
-  const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!content) return;
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<CommentFormData>({
+    resolver: zodResolver(commentSchema),
+  });
 
+  const onSubmit = async (data: CommentFormData) => {
     setLoading(true);
 
     await fetch("/api/comments", {
       method: "POST",
-      body: JSON.stringify({ content, eventId }),
+      body: JSON.stringify({ content: data.content, eventId }),
     });
 
-    setContent("");
+    reset();
     setLoading(false);
     router.refresh();
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-6">
       <textarea
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        {...register("content")}
         className="w-full border p-2 rounded"
         placeholder="コメントを書く"
       />
+      {errors.content && (
+        <p className="text-sm text-red-500">{errors.content.message}</p>
+      )}
       <button
         type="submit"
         disabled={loading}

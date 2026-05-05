@@ -15,7 +15,7 @@ export default function NotificationList({
   onToggleRead,
 }: Props) {
   if (notifications.length === 0) {
-    <p className="text-gray-500">通知はありません</p>;
+    return <p className="text-gray-500">通知はありません</p>;
   }
 
   return (

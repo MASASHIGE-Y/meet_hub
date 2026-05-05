@@ -1,11 +1,12 @@
 import { prisma } from "@/lib/prisma";
 import AuthButton from "./components/AuthButton";
 import { getServerSession } from "next-auth";
-import { authOptions } from "./api/auth/[...nextauth]/route";
 import { redirect } from "next/navigation";
 import EventTabs from "./components/EventTabs";
 import Pagination from "./components/Pagination";
 import EventList from "./components/EventList";
+import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 type Props = {
   searchParams: Promise<{
@@ -24,11 +25,7 @@ export default async function Home({ searchParams }: Props) {
   let user = null;
 
   if (session?.user?.email) {
-    user = await prisma.user.findUnique({
-      where: {
-        email: session.user.email,
-      },
-    });
+    user = await findUserByEmail(session.user.email);
 
     if (user && !user.isOnboarded) {
       redirect("/register");

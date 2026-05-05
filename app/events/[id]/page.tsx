@@ -1,8 +1,9 @@
 import { prisma } from "@/lib/prisma";
 import { notFound } from "next/navigation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import EventDetailView from "./EventDetailView";
+import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 type Props = {
   params: Promise<{
@@ -42,11 +43,11 @@ export default async function EventDetailPage({ params }: Props) {
   // ログインユーザー取得
   const session = await getServerSession(authOptions);
 
-  const user = session?.user?.email
-    ? await prisma.user.findUnique({
-        where: { email: session.user.email },
-      })
-    : null;
+  let user = null;
+
+  if (session?.user?.email) {
+    user = await findUserByEmail(session.user.email);
+  }
 
   // 参加済み判定
   const isParticipating = user

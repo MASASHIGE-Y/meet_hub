@@ -1,8 +1,9 @@
+import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
+import { findUserByEmail } from "@/lib/user";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import z from "zod";
-import { authOptions } from "../auth/[...nextauth]/route";
 
 const registerSchema = z.object({
   birthDate: z.string().min(1, "生年月日を入力してください"),
@@ -25,14 +26,10 @@ export async function POST(request: Request) {
 
   const { birthDate, bio } = result.data;
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session.user.email,
-    },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
-    return NextResponse.json({ messagte: "User not found" }, { status: 404 });
+    return NextResponse.json({ message: "User not found" }, { status: 404 });
   }
 
   await prisma.user.update({

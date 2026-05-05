@@ -1,9 +1,9 @@
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import ProfileEditForm from "./ProfileEditForm";
 import Link from "next/link";
+import { authOptions } from "@/lib/auth";
+import { findUserByEmail } from "@/lib/user";
 
 export default async function ProfileEditPage() {
   const session = await getServerSession(authOptions);
@@ -12,11 +12,7 @@ export default async function ProfileEditPage() {
     redirect("api/auth/signin");
   }
 
-  const user = await prisma.user.findUnique({
-    where: {
-      email: session.user.email,
-    },
-  });
+  const user = await findUserByEmail(session.user.email);
 
   if (!user) {
     redirect("/api/auth/signin");

@@ -1,6 +1,7 @@
 "use client";
 
 import { signIn, signOut, useSession } from "next-auth/react";
+import Image from "next/image";
 import Link from "next/link";
 
 type Props = {
@@ -19,10 +20,12 @@ export default function AuthButton({ userId }: Props) {
             className="flex items-center gap-2 hover:underline"
           >
             {session.user?.image && (
-              <img
+              <Image
                 src={session.user.image}
                 alt={session.user.name ?? "user avatar"}
-                className="h-10 w-10 rounded-full"
+                width={40}
+                height={40}
+                className="rounded-full"
               />
             )}
             <span>{session.user?.name}</span>
@@ -30,10 +33,12 @@ export default function AuthButton({ userId }: Props) {
         ) : (
           <div className="flex items-center gap-2">
             {session.user?.image && (
-              <img
+              <Image
                 src={session.user.image}
                 alt={session.user.name ?? "user avatar"}
-                className="h-10 w-10 rounded-full"
+                width={40}
+                height={40}
+                className="rounded-full"
               />
             )}
             <span>{session.user?.name}</span>
