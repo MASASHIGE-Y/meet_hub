@@ -89,3 +89,6 @@ https://meet-hub-mu.vercel.app
 ### トップページ
 
 <img width="1470" height="802" alt="top" src="https://github.com/user-attachments/assets/af02e93f-d5af-4e16-92e6-718e72125086" />
+
+
+<img width="1470" height="800" alt="top2" src="https://github.com/user-attachments/assets/d07c137d-eb7e-4b21-a0f0-4f2cf0fe3aca" />
