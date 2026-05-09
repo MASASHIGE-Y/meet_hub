@@ -1,36 +1,91 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# meet_hub
 
-## Getting Started
+イベント募集・参加プラットフォームです。
 
-First, run the development server:
+ユーザー登録を行い、
+イベントの作成・参加・コメント・ブックマーク・DMなどを行うことができます。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Next.js App Router を用いて、
+認証・CRUD・通知機能を含むフルスタックアプリとして開発しました。
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## URL
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+https://meet-hub-mu.vercel.app
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 使用技術
 
-## Learn More
+### フロントエンド
 
-To learn more about Next.js, take a look at the following resources:
+- Next.js (App Router)
+- TypeScript
+- Tailwind CSS
+- shadcn/ui
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### バックエンド
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- NextAuth.js
+- Prisma
+- PostgreSQL (Neon)
+- Route Handlers
 
-## Deploy on Vercel
+### バリデーション / フォーム
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- react-hook-form
+- zod
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### インフラ構成
+
+- Vercel
+- Neon
+
+## 主な機能
+
+### 認証機能
+
+- GitHubログイン
+- ログアウト
+- オンボーディング
+
+### イベント機能
+
+- イベント作成
+- イベント編集
+- イベント削除
+- イベント詳細表示
+
+### ユーザー機能
+
+- プロフィール編集
+- フォロー機能
+- ブックマーク機能
+
+### コミュニケーション機能
+
+- コメント投稿
+- DM機能
+- 通知機能
+
+### その他
+
+- ページネーション
+- レスポンシブ対応
+
+## 工夫した点
+
+- App Routerを利用した構成
+- Route Handlers経由でDB操作を実装
+- Prismaを利用したデータ管理
+- react-hook-form + zod によるフォームバリデーション
+- Server Component / Client Component を用途に応じて使い分け
+- 再利用性を意識したコンポーネント設計
+- 通知機能やDM機能など、
+  実際のSNS系サービスを意識した機能設計
+
+## スクリーンショット
+
+※ UI/UX改善中のため、
+スクリーンショットは今後追加予定です。
+
+### トップページ
+
+<img width="1470" height="802" alt="top" src="https://github.com/user-attachments/assets/af02e93f-d5af-4e16-92e6-718e72125086" />
