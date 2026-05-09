@@ -1,26 +1,9 @@
+import { EventCardType } from "@/types/event";
 import Image from "next/image";
 import Link from "next/link";
 
-type Event = {
-  id: string;
-  title: string;
-  description: string | null;
-  startAt: Date | null;
-  endAt: Date | null;
-  location: string | null;
-  capacity: number | null;
-  creator: {
-    id: string;
-    name: string | null;
-    image: string | null;
-  };
-  participations: {
-    id: string;
-  }[];
-};
-
 type Props = {
-  event: Event;
+  event: EventCardType;
 };
 
 export default function EventCard({ event }: Props) {

@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    return new Response("Unquthorized", { status: 401 });
+    return new Response("Unauthorized", { status: 401 });
   }
 
   const { content, eventId } = await req.json();

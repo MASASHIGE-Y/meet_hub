@@ -4,17 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import { messageSchema, type MessageFormData } from "@/schemas/message";
 
 type Props = {
   roomId: string;
 };
-
-const messageSchema = z.object({
-  content: z.string().min(1, "メッセージを入力してください"),
-});
-
-type MessageFormData = z.infer<typeof messageSchema>;
 
 export default function MessageForm({ roomId }: Props) {
   const [loading, setLoading] = useState(false);

@@ -1,25 +1,8 @@
+import { EventCardType } from "@/types/event";
 import EventCard from "./EventCard";
 
-type Event = {
-  id: string;
-  title: string;
-  description: string | null;
-  startAt: Date | null;
-  endAt: Date | null;
-  location: string | null;
-  capacity: number | null;
-  creator: {
-    id: string;
-    name: string | null;
-    image: string | null;
-  };
-  participations: {
-    id: string;
-  }[];
-};
-
 type Props = {
-  events: Event[];
+  events: EventCardType[];
 };
 
 export default function EventList({ events }: Props) {

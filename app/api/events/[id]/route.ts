@@ -2,13 +2,8 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
-import z from "zod";
 import { findUserByEmail } from "@/lib/user";
-
-const updateEventSchema = z.object({
-  title: z.string().min(1, "タイトルは必須です"),
-  description: z.string().max(140, "説明は140文字以内で入力してください"),
-});
+import { updateEventSchema } from "@/schemas/event";
 
 export async function DELETE(
   req: Request,

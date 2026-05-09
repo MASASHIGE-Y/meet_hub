@@ -1,26 +1,17 @@
 "use client";
 
+import { SimpleEvent } from "@/types/event";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
+import { updateEventSchema } from "@/schemas/event";
 import { z } from "zod";
 
-type Event = {
-  id: string;
-  title: string;
-  description: string | null;
-};
-
 type EditFormProps = {
-  event: Event;
+  event: SimpleEvent;
 };
 
-const editEventSchema = z.object({
-  title: z.string().min(1, "タイトルは必須です"),
-  description: z.string().max(140, "説明は140文字以内で入力してください"),
-});
-
-type EditEventFormData = z.infer<typeof editEventSchema>;
+type EditEventFormData = z.infer<typeof updateEventSchema>;
 
 export default function EditForm({ event }: EditFormProps) {
   const router = useRouter();
@@ -30,7 +21,7 @@ export default function EditForm({ event }: EditFormProps) {
     handleSubmit,
     formState: { errors },
   } = useForm<EditEventFormData>({
-    resolver: zodResolver(editEventSchema),
+    resolver: zodResolver(updateEventSchema),
     defaultValues: {
       title: event.title,
       description: event.description ?? "",

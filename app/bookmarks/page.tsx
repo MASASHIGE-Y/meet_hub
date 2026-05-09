@@ -1,9 +1,9 @@
-import { prisma } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
 import BackToTopLink from "../components/BackToTopLink";
 import BookmarkList from "../components/BookmarkList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
+import { getBookmarksByUserId } from "@/lib/bookmark";
 
 export default async function BookmarksPage() {
   const session = await getServerSession(authOptions);
@@ -16,14 +16,7 @@ export default async function BookmarksPage() {
 
   if (!user) return <p>User not found</p>;
 
-  const bookmarks = await prisma.bookmark.findMany({
-    where: {
-      userId: user.id,
-    },
-    include: {
-      event: true,
-    },
-  });
+  const bookmarks = await getBookmarksByUserId(user.id);
 
   return (
     <main className="p-8">
