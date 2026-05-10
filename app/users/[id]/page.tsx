@@ -5,6 +5,12 @@ import UserEventList from "./UserEventList";
 import UserProfileTabs from "./UserProfileTabs";
 import UserProfileHeader from "./UserProfileHeader";
 import { authOptions } from "@/lib/auth";
+import {
+  getBookmarkedEventsByUserId,
+  getCommentedEventsByUserId,
+  getCreatedEventsByUserId,
+  getParticipatedEventsByUserId,
+} from "@/lib/event";
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -60,39 +66,19 @@ export default async function UserProfilePage({ params, searchParams }: Props) {
   const isFollowing = !!follow;
 
   if (currentTab === "created") {
-    events = await prisma.event.findMany({
-      where: { creatorId: profileUser.id },
-    });
+    events = await getCreatedEventsByUserId(profileUser.id);
   }
 
   if (currentTab === "participated") {
-    events = await prisma.event.findMany({
-      where: {
-        participations: {
-          some: { userId: profileUser.id },
-        },
-      },
-    });
+    events = await getParticipatedEventsByUserId(profileUser.id);
   }
 
   if (currentTab === "bookmark") {
-    events = await prisma.event.findMany({
-      where: {
-        bookmark: {
-          some: { userId: profileUser.id },
-        },
-      },
-    });
+    events = await getBookmarkedEventsByUserId(profileUser.id);
   }
 
   if (currentTab === "comments") {
-    events = await prisma.event.findMany({
-      where: {
-        comments: {
-          some: { userId: profileUser.id },
-        },
-      },
-    });
+    events = await getCommentedEventsByUserId(profileUser.id);
   }
 
   return (

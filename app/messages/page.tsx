@@ -1,11 +1,11 @@
 import { getServerSession } from "next-auth";
-import { prisma } from "@/lib/prisma";
 import MessageForm from "./MessageForm";
 import BackToTopLink from "../components/BackToTopLink";
 import RoomList from "../components/RoomList";
 import MessageList from "../components/MessageList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
+import { getRoomsByUserId } from "@/lib/room";
 
 type Props = {
   searchParams: Promise<{
@@ -44,29 +44,7 @@ export default async function MessagesPage({ searchParams }: Props) {
     return <p>User not found</p>;
   }
 
-  const rooms = await prisma.room.findMany({
-    where: {
-      users: {
-        some: {
-          id: user.id,
-        },
-      },
-    },
-    include: {
-      users: true,
-      messages: {
-        include: {
-          sender: true,
-        },
-        orderBy: {
-          createdAt: "asc",
-        },
-      },
-    },
-    orderBy: {
-      updatedAt: "desc",
-    },
-  });
+  const rooms = await getRoomsByUserId(user.id);
 
   const selectedRoom = roomId
     ? rooms.find((room: RoomWithUsersAndMessages) => room.id === roomId)

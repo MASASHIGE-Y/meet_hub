@@ -1,10 +1,10 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { prisma } from "@/lib/prisma";
 import BackToTopLink from "../components/BackToTopLink";
 import DashboardEventList from "../components/DashboardEventList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
+import { getEventsByUserId } from "@/lib/event";
 
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
@@ -20,21 +20,11 @@ export default async function DashboardPage() {
 
   const user = await findUserByEmail(session.user.email);
 
-  const events = await prisma.event.findMany({
-    where: {
-      creatorId: user?.id,
-    },
-    include: {
-      bookmark: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
   if (!user?.isOnboarded) {
     redirect("/register");
   }
+
+  const events = await getEventsByUserId(user.id);
 
   return (
     <main className="p-8">
