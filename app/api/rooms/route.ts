@@ -24,20 +24,29 @@ export async function POST(req: Request) {
   // 既存ルームを探す
   const existingRoom = await prisma.room.findFirst({
     where: {
-      users: {
-        every: {
-          id: {
-            in: [currentUser.id, userId],
+      AND: [
+        {
+          users: {
+            some: {
+              id: currentUser.id,
+            },
           },
         },
-      },
+        {
+          users: {
+            some: {
+              id: userId,
+            },
+          },
+        },
+      ],
     },
     include: {
       users: true,
     },
   });
 
-  if (existingRoom) {
+  if (existingRoom && existingRoom.users.length === 2) {
     return NextResponse.json({ roomId: existingRoom.id });
   }
 

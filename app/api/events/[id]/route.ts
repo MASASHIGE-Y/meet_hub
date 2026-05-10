@@ -38,8 +38,6 @@ export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  console.log("PATCH API called");
-
   const { id } = await params;
 
   const session = await getServerSession(authOptions);
