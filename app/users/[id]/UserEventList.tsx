@@ -13,14 +13,19 @@ export default function UserEventList({ events }: Props) {
   return (
     <ul className="mt-4 space-y-2">
       {events.map((event) => (
-        <li key={event.id} className="rounded border p-3">
+        <li
+          key={event.id}
+          className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        >
           <Link
             href={`/events/${event.id}`}
-            className="font-bold hover:underline"
+            className="text-lg font-bold text-slate-900 hover:text-blue-600"
           >
             {event.title}
           </Link>
-          <p className="text-sm text-gray-600">{event.description}</p>
+          <p className="text-sm leading-6 text-slate-600">
+            {event.description}
+          </p>
         </li>
       ))}
     </ul>

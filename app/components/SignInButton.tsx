@@ -7,16 +7,16 @@ export default function SignInButton() {
     <div className="space-y-3">
       <button
         onClick={() => signIn("github", { callbackUrl: "/" })}
-        className="w-full rounded bg-black px-4 py-2 text-white transition duration-200 hover:bg-gray-800"
+        className="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-700"
       >
         Sign in with GitHub
       </button>
 
       <button
         onClick={() => signIn("credentials", { callbackUrl: "/" })}
-        className="w-full rounded border border-gray-300 px-4 py-2 text-gray-700 transition duration-200 hover:bg-gray-100"
+        className="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
       >
-        ゲストログイン
+        ゲストログインで試す
       </button>
     </div>
   );

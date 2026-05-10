@@ -38,15 +38,29 @@ export default async function NotificationPage() {
   }
 
   return (
-    <main className="p-8">
-      <BackToTopLink />
+    <main className="min-h-screen bg-slate-100 px-6 py-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-8">
+          <BackToTopLink />
 
-      <h1 className="text-2xl font-bold mb-4">通知</h1>
+          <p className="mt-6 text-sm font-semibold text-blue-600">
+            Notifications
+          </p>
 
-      <NotificationList
-        notifications={notifications}
-        onToggleRead={toggleRead}
-      />
+          <h1 className="mt-1 text-3xl font-bold text-slate-900">通知</h1>
+
+          <p className="mt-2 text-sm text-slate-600">
+            コメントや参加など、イベントに関する通知を確認できます。
+          </p>
+        </div>
+
+        <section className="rounded-2xl bg-white p-6 shadow-sm">
+          <NotificationList
+            notifications={notifications}
+            onToggleRead={toggleRead}
+          />
+        </section>
+      </div>
     </main>
   );
 }

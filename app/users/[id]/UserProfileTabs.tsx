@@ -19,10 +19,10 @@ export default function UserProfileTabs({ userId, currentTab }: Props) {
         <Link
           key={tab.key}
           href={`/users/${userId}?tab=${tab.key}`}
-          className={`rounded px-3 py-1 ${
+          className={`rounded-full px-4 py-2 text-sm font-medium transition ${
             currentTab === tab.key
-              ? "bg-blue-500 text-white"
-              : "bg-gray-200 text-black"
+              ? "bg-blue-500 text-white shadow-sm"
+              : "bg-slate-100 text-slate-700 hover:bg-slate-200"
           }`}
         >
           {tab.label}

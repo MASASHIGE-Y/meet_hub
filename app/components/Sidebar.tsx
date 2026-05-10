@@ -23,19 +23,52 @@ export default async function Sidebar() {
   }
 
   return (
-    <aside className="w-48 bg-gray-100 p-4 space-y-2">
-      <Link href="/dashboard">Dashboard</Link>
-      <br />
-      <Link href="/bookmarks">Bookmarks</Link>
-      <br />
-      <Link href="/following">フォロー中</Link>
-      <br />
-      <Link href="/messages">メッセージ</Link>
-      <br />
-
-      <Link href="/notifications">
-        通知 {unreadCount > 0 && `(${unreadCount})`}
+    <aside className="min-h-screen w-56 border-r border-slate-200 bg-white px-6 py-8">
+      <Link href="/" className="mb-8 block text-2xl font-bold text-slate-900">
+        meet_hub
       </Link>
+
+      <nav className="space-y-2 text-sm">
+        <Link
+          href="/dashboard"
+          className="block rounded-lg px-3 py-2 text-slate-700 transition hover:bg-slate-100"
+        >
+          Dashboard
+        </Link>
+
+        <Link
+          href="/bookmarks"
+          className="block rounded-lg px-3 py-2 text-slate-700 transition hover:bg-slate-100"
+        >
+          Bookmarks
+        </Link>
+
+        <Link
+          href="/following"
+          className="block rounded-lg px-3 py-2 text-slate-700 transition hover:bg-slate-100"
+        >
+          フォロー中
+        </Link>
+
+        <Link
+          href="/messages"
+          className="block rounded-lg px-3 py-2 text-slate-700 transition hover:bg-slate-100"
+        >
+          メッセージ
+        </Link>
+
+        <Link
+          href="/notifications"
+          className="block rounded-lg px-3 py-2 text-slate-700 transition hover:bg-slate-100"
+        >
+          通知
+          {unreadCount > 0 && (
+            <span className="ml-2 rounded-full bg-red-500 px-2 py-0.5 text-xs text-white">
+              {unreadCount}
+            </span>
+          )}
+        </Link>
+      </nav>
     </aside>
   );
 }

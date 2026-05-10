@@ -24,10 +24,22 @@ export async function DELETE(
     return NextResponse.json({ error: "User not found" }, { status: 404 });
   }
 
+  await prisma.comment.deleteMany({
+    where: { eventId: id },
+  });
+
+  await prisma.participation.deleteMany({
+    where: { eventId: id },
+  });
+
+  await prisma.bookmark.deleteMany({
+    where: { eventId: id },
+  });
+
   await prisma.event.delete({
     where: {
       id,
-      creatorId: user.id, // 自分のだけ消す
+      creatorId: user.id,
     },
   });
 

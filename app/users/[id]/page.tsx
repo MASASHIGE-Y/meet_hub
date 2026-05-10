@@ -82,7 +82,7 @@ export default async function UserProfilePage({ params, searchParams }: Props) {
   }
 
   return (
-    <main className="p-8">
+    <main className="min-h-screen bg-slate-100 p-8">
       <UserProfileHeader
         profileUser={profileUser}
         currentUser={currentUser}
