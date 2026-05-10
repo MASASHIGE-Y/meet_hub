@@ -60,27 +60,42 @@ export default async function Home({ searchParams }: Props) {
   const totalPages = Math.ceil(totalCount / pageSize);
 
   return (
-    <main className="p-8 space-y-6">
-      <header className="mb-8 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">meet_hub</h1>
-        <AuthButton userId={user?.id} />
-      </header>
+    <main className="min-h-screen bg-slate-100 px-6 py-10">
+      <div className="mx-auto max-w-5xl">
+        <header className="mb-8 flex items-center justify-between">
+          <div>
+            <p className="mb-1 text-sm font-semibold text-blue-600">meet_hub</p>
 
-      <section>
-        <EventTabs tab={tab} />
+            <h1 className="text-3xl font-bold text-slate-900">
+              イベントで人とつながる
+            </h1>
 
-        <h2 className="text-xl font-bold">
-          {tab === "following" ? "フォロー中のイベント" : "おすすめイベント"}
-        </h2>
+            <p className="mt-2 text-sm text-slate-600">
+              勉強会・交流会・プロジェクトのイベントを見つけよう
+            </p>
+          </div>
 
-        <EventList events={events} />
+          <AuthButton userId={user?.id} />
+        </header>
 
-        <Pagination
-          tab={tab}
-          currentPage={currentPage}
-          totalPages={totalPages}
-        />
-      </section>
+        <section className="rounded-2xl bg-white p-6 shadow-sm">
+          <EventTabs tab={tab} />
+
+          <h2 className="mt-6 mb-4 text-xl font-bold text-slate-800">
+            {tab === "following" ? "フォロー中のイベント" : "おすすめイベント"}
+          </h2>
+
+          <EventList events={events} />
+
+          <div className="mt-8">
+            <Pagination
+              tab={tab}
+              currentPage={currentPage}
+              totalPages={totalPages}
+            />
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

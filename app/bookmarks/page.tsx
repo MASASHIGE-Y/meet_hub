@@ -20,11 +20,26 @@ export default async function BookmarksPage() {
   const bookmarks = await getBookmarksByUserId(user.id);
 
   return (
-    <main className="p-8">
-      <BackToTopLink />
-      <h1 className="text-2xl font-bold mb-4">Bookmarks</h1>
+    <main className="min-h-screen bg-slate-100 px-6 py-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-8">
+          <BackToTopLink />
 
-      <BookmarkList bookmarks={bookmarks} />
+          <p className="mt-6 text-sm font-semibold text-blue-600">Bookmarks</p>
+
+          <h1 className="mt-1 text-3xl font-bold text-slate-900">
+            ブックマーク
+          </h1>
+
+          <p className="mt-2 text-sm text-slate-600">
+            気になるイベントをあとから確認できます。
+          </p>
+        </div>
+
+        <section className="rounded-2xl bg-white p-6 shadow-sm">
+          <BookmarkList bookmarks={bookmarks} />
+        </section>
+      </div>
     </main>
   );
 }

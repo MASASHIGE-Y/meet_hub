@@ -43,10 +43,10 @@ export default function MessageForm({ roomId }: Props) {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="mt-4 flex gap-2">
+    <form onSubmit={handleSubmit(onSubmit)} className="mt-6 flex gap-3">
       <input
         {...register("content")}
-        className="flex-1 rounded border px-3 py-2"
+        className="flex-1 rounded-xl border border-slate-300 bg-white px-4 py-3 outline-none transition focus:border-blue-500"
         placeholder="メッセージを入力"
       />
       {errors.content && (
@@ -56,7 +56,7 @@ export default function MessageForm({ roomId }: Props) {
       <button
         type="submit"
         disabled={loading}
-        className="bg-blue-500 text-white px-4 py-2 rounded mt-4"
+        className="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white transition hover:bg-blue-700 disabled:opacity-50"
       >
         {loading ? "送信中..." : "送信"}
       </button>

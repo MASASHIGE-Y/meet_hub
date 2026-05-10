@@ -27,19 +27,41 @@ export default async function DashboardPage() {
   const events = await getEventsByUserId(user.id);
 
   return (
-    <main className="p-8">
-      <BackToTopLink />
-      <h1 className="text-2xl font-bold">Dashboard</h1>
+    <main className="min-h-screen bg-slate-100 px-6 py-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-8">
+          <BackToTopLink />
 
-      <p>名前：{user?.name}</p>
-      <p>自己紹介：{user?.bio}</p>
-      <p>誕生日：{user?.birthDate?.toDateString()}</p>
+          <p className="mt-6 text-sm font-semibold text-blue-600">Dashboard</p>
 
-      <section className="mt-8">
-        <h2 className="text-xl font-bold">あなたのイベント</h2>
+          <h1 className="mt-1 text-3xl font-bold text-slate-900">マイページ</h1>
 
-        <DashboardEventList events={events} userId={user.id} />
-      </section>
+          <p className="mt-2 text-sm text-slate-600">
+            プロフィール情報と作成したイベントを確認できます。
+          </p>
+        </div>
+
+        <section className="mb-8 rounded-2xl bg-white p-6 shadow-sm">
+          <h2 className="text-lg font-bold text-slate-900">プロフィール</h2>
+
+          <div className="mt-4 space-y-2 text-sm text-slate-600">
+            <p>名前：{user.name ?? "未設定"}</p>
+            <p>自己紹介：{user.bio ?? "未設定"}</p>
+            <p>
+              誕生日：
+              {user.birthDate ? user.birthDate.toDateString() : "未設定"}
+            </p>
+          </div>
+        </section>
+
+        <section className="rounded-2xl bg-white p-6 shadow-sm">
+          <h2 className="text-xl font-bold text-slate-900">あなたのイベント</h2>
+
+          <div className="mt-5">
+            <DashboardEventList events={events} userId={user.id} />
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

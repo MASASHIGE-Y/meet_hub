@@ -12,9 +12,14 @@ export default async function EventNewPage() {
   }
 
   return (
-    <main className="p-8">
-      <BackToTopLink />
-      <EventCreateForm />
+    <main className="min-h-screen bg-slate-100 px-6 py-10">
+      <div className="mx-auto max-w-2xl">
+        <div className="mb-4">
+          <BackToTopLink />
+        </div>
+
+        <EventCreateForm />
+      </div>
     </main>
   );
 }

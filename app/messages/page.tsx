@@ -52,32 +52,50 @@ export default async function MessagesPage({ searchParams }: Props) {
     : rooms[0];
 
   return (
-    <main className="flex h-screen">
-      <BackToTopLink />
+    <main className="min-h-screen bg-slate-100 px-6 py-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-8">
+          <BackToTopLink />
 
-      <aside className="w-64 border-r p-4">
-        <h1 className="mb-4 text-xl font-bold">メッセージ</h1>
+          <p className="mt-6 text-sm font-semibold text-blue-600">Messages</p>
 
-        <RoomList
-          rooms={rooms}
-          currentUserId={user.id}
-          selectedRoomId={selectedRoom?.id}
-        />
-      </aside>
+          <h1 className="mt-1 text-3xl font-bold text-slate-900">メッセージ</h1>
 
-      <section className="flex-1 p-4">
-        {!selectedRoom ? (
-          <p>ルームを選択してください</p>
-        ) : (
-          <>
-            <h2 className="mb-4 text-lg font-bold">メッセージ一覧</h2>
+          <p className="mt-2 text-sm text-slate-600">
+            ユーザーとのやり取りを確認できます。
+          </p>
+        </div>
 
-            <MessageList messages={selectedRoom.messages} />
+        <div className="grid gap-6 md:grid-cols-[280px_1fr]">
+          <aside className="rounded-2xl bg-white p-6 shadow-sm">
+            <h2 className="mb-4 text-lg font-bold text-slate-900">
+              ルーム一覧
+            </h2>
 
-            <MessageForm roomId={selectedRoom.id} />
-          </>
-        )}
-      </section>
+            <RoomList
+              rooms={rooms}
+              currentUserId={user.id}
+              selectedRoomId={selectedRoom?.id}
+            />
+          </aside>
+
+          <section className="rounded-2xl bg-white p-6 shadow-sm">
+            {!selectedRoom ? (
+              <p className="text-sm text-slate-500">ルームを選択してください</p>
+            ) : (
+              <>
+                <h2 className="mb-6 text-xl font-bold text-slate-900">
+                  メッセージ一覧
+                </h2>
+
+                <MessageList messages={selectedRoom.messages} />
+
+                <MessageForm roomId={selectedRoom.id} />
+              </>
+            )}
+          </section>
+        </div>
+      </div>
     </main>
   );
 }

@@ -39,14 +39,19 @@ export default function EventCreateForm() {
   };
 
   return (
-    <div className="mb-6 rounded border p-4 max-w-xl">
-      <h2 className="mb-2 text-lg font-bold">イベント作成</h2>
+    <div className="mx-auto max-w-2xl rounded-2xl bg-white p-8 shadow-sm">
+      <div className="mb-6">
+        <h2 className="text-2xl font-bold text-slate-900">イベント作成</h2>
+        <p className="mt-2 text-sm text-slate-600">
+          勉強会・交流会・プロジェクトなどのイベントを登録できます。
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         <input
           {...register("title")}
           placeholder="タイトル"
-          className="mb-2 w-full border p-2"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500"
         />
         {errors.title && (
           <p className="text-sm text-red-500">{errors.title.message}</p>
@@ -55,7 +60,7 @@ export default function EventCreateForm() {
         <textarea
           {...register("description")}
           placeholder="内容"
-          className="mb-2 w-full border p-2"
+          className="min-h-28 w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500"
         />
         {errors.description && (
           <p className="text-sm text-red-500">{errors.description.message}</p>
@@ -64,7 +69,7 @@ export default function EventCreateForm() {
         <input
           type="datetime-local"
           {...register("startAt")}
-          className="mb-2 w-full border p-2"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500"
         />
         {errors.startAt && (
           <p className="text-sm text-red-500">{errors.startAt.message}</p>
@@ -73,7 +78,7 @@ export default function EventCreateForm() {
         <input
           type="datetime-local"
           {...register("endAt")}
-          className="mb-2 w-full border p-2"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500"
         />
         {errors.endAt && (
           <p className="text-sm text-red-500">{errors.endAt.message}</p>
@@ -82,20 +87,20 @@ export default function EventCreateForm() {
         <input
           {...register("location")}
           placeholder="場所"
-          className="mb-2 w-full border p-2"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500"
         />
 
         <input
           type="number"
           {...register("capacity")}
           placeholder="参加上限人数"
-          className="mb-2 w-full border p-2"
+          className="w-full rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none focus:border-blue-500"
         />
         {errors.capacity && (
           <p className="text-sm text-red-500">{errors.capacity.message}</p>
         )}
 
-        <button className="rounded bg-blue-500 px-4 py-2 text-white">
+        <button className="w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition hover:bg-blue-700">
           作成
         </button>
       </form>

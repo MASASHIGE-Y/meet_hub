@@ -37,26 +37,43 @@ export default async function FollowingPage() {
   };
 
   return (
-    <main className="p-8">
-      <BackToTopLink />
+    <main className="min-h-screen bg-slate-100 px-6 py-10">
+      <div className="mx-auto max-w-5xl">
+        <div className="mb-8">
+          <BackToTopLink />
 
-      <h1 className="text-2xl font-bold mb-4">フォロー中</h1>
+          <p className="mt-6 text-sm font-semibold text-blue-600">Following</p>
 
-      {follows.length === 0 ? (
-        <p>まだ誰もフォローしていません</p>
-      ) : (
-        <ul className="space-y-4">
-          {follows.map((f: FollowWithUser) => (
-            <li key={f.id} className="border p-4 rounded">
-              <Link href={`/users/${f.following.id}`}>
-                <h2 className="font-bold hover:underline">
-                  {f.following.name}
-                </h2>
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
+          <h1 className="mt-1 text-3xl font-bold text-slate-900">フォロー中</h1>
+
+          <p className="mt-2 text-sm text-slate-600">
+            フォローしているユーザーを確認できます。
+          </p>
+        </div>
+
+        <section className="rounded-2xl bg-white p-6 shadow-sm">
+          {follows.length === 0 ? (
+            <p className="rounded-xl bg-slate-50 p-4 text-sm text-slate-500">
+              まだ誰もフォローしていません。
+            </p>
+          ) : (
+            <ul className="space-y-4">
+              {follows.map((f: FollowWithUser) => (
+                <li
+                  key={f.id}
+                  className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                >
+                  <Link href={`/users/${f.following.id}`} className="block">
+                    <h2 className="text-lg font-bold text-slate-900 hover:text-blue-600">
+                      {f.following.name ?? "Unknown user"}
+                    </h2>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
+        </section>
+      </div>
     </main>
   );
 }
