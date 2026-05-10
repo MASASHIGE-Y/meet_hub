@@ -67,7 +67,7 @@ export default async function EventDetailPage({ params }: Props) {
   const isFollowingCreator = !!follow;
 
   return (
-    <main className="p-8">
+    <main className="min-h-screen bg-slate-100 p-8">
       <EventDetailView
         event={event}
         user={user}

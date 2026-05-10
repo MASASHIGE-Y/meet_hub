@@ -24,9 +24,9 @@ export default function UserProfileHeader({
   isFollowing,
 }: Props) {
   return (
-    <div>
+    <div className="rounded-2xl bg-white p-6 shadow-sm">
       <BackToTopLink />
-      <h1 className="text-2xl font-bold">{profileUser.name}</h1>
+      <h1 className="text-3xl font-bold tracking-tight">{profileUser.name}</h1>
 
       {profileUser.image && (
         <Image
@@ -44,7 +44,7 @@ export default function UserProfileHeader({
         </p>
       )}
 
-      <p className="mt-4">{profileUser.bio}</p>
+      <p className="mt-4 text-slate-700 leading-7">{profileUser.bio}</p>
 
       {currentUser?.id === profileUser.id && (
         <Link

@@ -62,5 +62,9 @@ export default function AuthButton({ userId }: Props) {
     );
   }
 
-  return <button onClick={() => signIn("github")}>ログイン</button>;
+  return (
+    <Link href="/auth/signin" className="rounded bg-black px-4 py-2 text-white">
+      ログイン
+    </Link>
+  );
 }

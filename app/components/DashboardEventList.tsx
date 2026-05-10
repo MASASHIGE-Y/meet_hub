@@ -60,9 +60,14 @@ export default function DashboardEventList({ events, userId }: Props) {
             onClick={async () => {
               if (!confirm("本当に削除しますか？")) return;
 
-              await fetch(`/api/events/${event.id}`, {
+              const res = await fetch(`/api/events/${event.id}`, {
                 method: "DELETE",
               });
+
+              if (!res.ok) {
+                alert("削除に失敗しました");
+                return;
+              }
 
               location.reload();
             }}

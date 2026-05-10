@@ -19,16 +19,18 @@ export default async function ProfileEditPage() {
   }
 
   return (
-    <main className="p-8">
-      <Link
-        href={`/users/${user.id}`}
-        className="text-sm text-blue-500 underline"
-      >
-        ← プロフィールに戻る
-      </Link>
-      <h1 className="text-2xl font-bold">プロフィール編集</h1>
+    <main className="min-h-screen bg-slate-100 p-8">
+      <div className="mx-auto max-w-3xl">
+        <Link
+          href={`/users/${user.id}`}
+          className="text-sm text-blue-500 underline"
+        >
+          ← プロフィールに戻る
+        </Link>
+        <h1 className="text-2xl font-bold">プロフィール編集</h1>
 
-      <ProfileEditForm user={user} />
+        <ProfileEditForm user={user} />
+      </div>
     </main>
   );
 }
