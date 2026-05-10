@@ -1,3 +1,5 @@
+"use client";
+
 import BookmarkButton from "../events/[id]/BookmarkButton";
 
 type DashboardEvent = {

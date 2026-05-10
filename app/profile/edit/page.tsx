@@ -9,7 +9,7 @@ export default async function ProfileEditPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    redirect("api/auth/signin");
+    redirect("/auth/signin");
   }
 
   const user = await findUserByEmail(session.user.email);
