@@ -4,13 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
-
-const commentSchema = z.object({
-  content: z.string().min(1, "コメントを入力してください"),
-});
-
-type CommentFormData = z.infer<typeof commentSchema>;
+import { commentSchema, type CommentFormData } from "@/schemas/comment";
 
 export default function CommentForm({ eventId }: { eventId: string }) {
   const [loading, setLoading] = useState(false);

@@ -1,13 +1,8 @@
+import { SimpleEvent } from "@/types/event";
 import Link from "next/link";
 
-type Event = {
-  id: string;
-  title: string;
-  description: string | null;
-};
-
 type Props = {
-  events: Event[];
+  events: SimpleEvent[];
 };
 
 export default function UserEventList({ events }: Props) {

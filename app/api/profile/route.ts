@@ -2,12 +2,7 @@ import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { authOptions } from "@/lib/auth";
-import { z } from "zod";
-
-const schema = z.object({
-  bio: z.string().max(140, "bioは140文字以内"),
-  birthDate: z.string().optional(),
-});
+import { profileSchema } from "@/schemas/profile";
 
 export async function POST(req: Request) {
   const session = await getServerSession(authOptions);
@@ -18,7 +13,7 @@ export async function POST(req: Request) {
 
   const body = await req.json();
 
-  const result = schema.safeParse(body);
+  const result = profileSchema.safeParse(body);
 
   if (!result.success) {
     return NextResponse.json(

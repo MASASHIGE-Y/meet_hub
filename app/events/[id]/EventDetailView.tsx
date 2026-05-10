@@ -5,37 +5,11 @@ import FollowButton from "@/app/users/[id]/FollowButton";
 import DmButton from "@/app/users/[id]/DmButton";
 import Link from "next/link";
 import Image from "next/image";
-type User = {
-  id: string;
-  name: string | null;
-  image: string | null;
-};
-
-type EventWithRelations = {
-  id: string;
-  title: string;
-  description: string | null;
-  date: Date;
-  location: string | null;
-  capacity: number | null;
-  startAt: Date | null;
-  endAt: Date | null;
-  creatorId: string;
-  creator: User;
-  comments: {
-    id: string;
-    content: string;
-    user: User;
-  }[];
-  participations: {
-    id: string;
-    user: User;
-  }[];
-};
+import { EventUser, EventWithRelations } from "@/types/event";
 
 type Props = {
   event: EventWithRelations;
-  user: User | null;
+  user: EventUser | null;
   isParticipating: boolean;
   isBookmarked: boolean;
   isFollowingCreator: boolean;

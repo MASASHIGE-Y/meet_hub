@@ -1,16 +1,9 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-
-const schema = z.object({
-  bio: z.string().max(200),
-  birthDate: z.string().optional(),
-});
-
-type FormData = z.infer<typeof schema>;
+import { profileSchema, type ProfileFormData } from "@/schemas/profile";
 
 type ProfileEditUser = {
   id: string;
@@ -23,8 +16,8 @@ export default function ProfileEditForm({ user }: { user: ProfileEditUser }) {
     register,
     handleSubmit,
     formState: { errors, isDirty },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
+  } = useForm<ProfileFormData>({
+    resolver: zodResolver(profileSchema),
     defaultValues: {
       bio: user.bio ?? "",
       birthDate: user.birthDate
@@ -35,7 +28,7 @@ export default function ProfileEditForm({ user }: { user: ProfileEditUser }) {
 
   const [message, setMessage] = useState("");
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: ProfileFormData) => {
     if (!isDirty) return;
     const res = await fetch("/api/profile", {
       method: "POST",

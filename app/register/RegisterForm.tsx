@@ -3,14 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import z from "zod";
-
-const schema = z.object({
-  birthDate: z.string().min(1, "生年月日は必須です"),
-  bio: z.string().max(140, "自己紹介文は140文字以内で入力してください"),
-});
-
-type FormData = z.infer<typeof schema>;
+import { registerSchema, type RegisterFormData } from "@/schemas/register";
 
 export default function RegisterForm() {
   const router = useRouter();
@@ -19,11 +12,11 @@ export default function RegisterForm() {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormData>({
-    resolver: zodResolver(schema),
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = async (data: FormData) => {
+  const onSubmit = async (data: RegisterFormData) => {
     const res = await fetch("api/register", {
       method: "POST",
       headers: {

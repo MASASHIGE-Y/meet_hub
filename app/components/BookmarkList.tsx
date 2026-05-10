@@ -1,17 +1,8 @@
+import { BookmarkWithEvent } from "@/types/event";
 import Link from "next/link";
 
-type Bookmark = {
-  id: string;
-  event: {
-    id: string;
-    title: string;
-    description: string | null;
-    date: Date;
-  };
-};
-
 type Props = {
-  bookmarks: Bookmark[];
+  bookmarks: BookmarkWithEvent[];
 };
 
 export default function BookmarkList({ bookmarks }: Props) {

@@ -3,12 +3,7 @@ import { prisma } from "@/lib/prisma";
 import { findUserByEmail } from "@/lib/user";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
-import z from "zod";
-
-const registerSchema = z.object({
-  birthDate: z.string().min(1, "生年月日を入力してください"),
-  bio: z.string().max(140, "自己紹介文は140文字以内です"),
-});
+import { registerSchema } from "@/schemas/register";
 
 export async function POST(request: Request) {
   const session = await getServerSession(authOptions);
