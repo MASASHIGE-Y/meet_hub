@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 import EventDetailView from "./EventDetailView";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
+import { getEventDetailById } from "@/lib/event";
 
 type Props = {
   params: Promise<{
@@ -14,27 +15,7 @@ type Props = {
 export default async function EventDetailPage({ params }: Props) {
   const { id } = await params;
 
-  const event = await prisma.event.findUnique({
-    where: {
-      id,
-    },
-    include: {
-      creator: true,
-      comments: {
-        include: {
-          user: true,
-        },
-        orderBy: {
-          createdAt: "desc",
-        },
-      },
-      participations: {
-        include: {
-          user: true,
-        },
-      },
-    },
-  });
+  const event = await getEventDetailById(id);
 
   if (!event) {
     notFound();

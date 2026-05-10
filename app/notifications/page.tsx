@@ -5,6 +5,7 @@ import BackToTopLink from "../components/BackToTopLink";
 import NotificationList from "../components/NotificationList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
+import { getNotificationsByUserId } from "@/lib/notification";
 
 export default async function NotificationPage() {
   const session = await getServerSession(authOptions);
@@ -19,14 +20,7 @@ export default async function NotificationPage() {
     return <p>User not found</p>;
   }
 
-  const notifications = await prisma.notification.findMany({
-    where: {
-      userId: user.id,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+  const notifications = await getNotificationsByUserId(user.id);
 
   async function toggleRead(id: string, isRead: boolean) {
     "use server";

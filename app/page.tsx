@@ -7,6 +7,7 @@ import Pagination from "./components/Pagination";
 import EventList from "./components/EventList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
+import { getEvents } from "@/lib/event";
 
 type Props = {
   searchParams: Promise<{
@@ -46,17 +47,10 @@ export default async function Home({ searchParams }: Props) {
     };
   }
 
-  const events = await prisma.event.findMany({
+  const events = await getEvents({
     where,
-    include: {
-      creator: true,
-      participations: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-    skip: (currentPage - 1) * pageSize,
-    take: pageSize,
+    currentPage,
+    pageSize,
   });
 
   const totalCount = await prisma.event.count({
