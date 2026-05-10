@@ -6,6 +6,7 @@ import MessageList from "../components/MessageList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
 import { getRoomsByUserId } from "@/lib/room";
+import { redirect } from "next/navigation";
 
 type Props = {
   searchParams: Promise<{
@@ -35,7 +36,7 @@ export default async function MessagesPage({ searchParams }: Props) {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    return <p>Unauthorized</p>;
+    redirect("/auth/signin");
   }
 
   const user = await findUserByEmail(session.user.email);

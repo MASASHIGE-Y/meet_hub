@@ -6,12 +6,13 @@ import NotificationList from "../components/NotificationList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
 import { getNotificationsByUserId } from "@/lib/notification";
+import { redirect } from "next/navigation";
 
 export default async function NotificationPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    return <p>Unauthorized</p>;
+    redirect("/auth/signin");
   }
 
   const user = await findUserByEmail(session.user.email);

@@ -4,12 +4,13 @@ import BookmarkList from "../components/BookmarkList";
 import { authOptions } from "@/lib/auth";
 import { findUserByEmail } from "@/lib/user";
 import { getBookmarksByUserId } from "@/lib/bookmark";
+import { redirect } from "next/navigation";
 
 export default async function BookmarksPage() {
   const session = await getServerSession(authOptions);
 
   if (!session?.user?.email) {
-    return <p>Unauthorized</p>;
+    redirect("/auth/signin");
   }
 
   const user = await findUserByEmail(session.user.email);

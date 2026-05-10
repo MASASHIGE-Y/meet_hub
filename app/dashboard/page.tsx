@@ -11,7 +11,7 @@ export default async function DashboardPage() {
 
   // ログインしていなければ追い出す
   if (!session) {
-    redirect("/api/auth/signin");
+    redirect("/auth/signin");
   }
 
   if (!session?.user?.email) {
