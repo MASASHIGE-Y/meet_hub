@@ -83,12 +83,29 @@ https://meet-hub-mu.vercel.app
 
 ## スクリーンショット
 
-※ UI/UX改善中のため、
-スクリーンショットは今後追加予定です。
-
 ### トップページ
 
-<img width="1470" height="802" alt="top" src="https://github.com/user-attachments/assets/af02e93f-d5af-4e16-92e6-718e72125086" />
+イベント一覧の閲覧や、フォロー中イベントへの切り替えができます。
+
+<img width="1470" height="759" alt="toppage" src="https://github.com/user-attachments/assets/ae6166a0-43a4-4bfb-97b0-c575dce1f04c" />
 
 
-<img width="1470" height="800" alt="top2" src="https://github.com/user-attachments/assets/d07c137d-eb7e-4b21-a0f0-4f2cf0fe3aca" />
+### イベント詳細
+
+イベントへの参加、ブックマーク、コメント投稿ができます。
+
+<img width="1470" height="800" alt="eventDetails" src="https://github.com/user-attachments/assets/2c97e7ad-31a3-4677-a74d-fb0af14a96a4" />
+
+
+### イベント作成
+
+タイトル・内容・日時・場所・参加上限人数を入力してイベントを作成できます。
+
+<img width="1470" height="800" alt="eventCreate" src="https://github.com/user-attachments/assets/69165f1d-7e3d-4676-8819-654d555a3c3c" />
+
+
+### マイページ
+
+プロフィール情報と、自分が作成したイベントを確認できます。
+
+<img width="1470" height="800" alt="myPage" src="https://github.com/user-attachments/assets/e6cda425-4728-4a3a-b416-c27ee07fc063" />
