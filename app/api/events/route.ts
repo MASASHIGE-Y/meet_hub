@@ -13,7 +13,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { title, description, date } = body;
+    const { title, description, startAt, endAt, location, capacity } = body;
 
     // ユーザー取得
     const user = await prisma.user.findUnique({
@@ -29,7 +29,11 @@ export async function POST(req: Request) {
       data: {
         title,
         description,
-        date: new Date(date),
+        date: new Date(startAt),
+        startAt: new Date(startAt),
+        endAt: new Date(endAt),
+        location,
+        capacity,
         creatorId: user.id,
       },
     });
